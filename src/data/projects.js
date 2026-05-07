@@ -4,7 +4,7 @@ export const projects = [
     description: "AI-powered diet and nutrition system. Drastically improved patient onboarding by automating diet plan generation and monitoring.",
     impact: "Reduced diet planning downtime from 45 min to < 30 sec.",
     tech: ["React", "Tailwind CSS", "Node.js", "Express.js", "MongoDB", "WebSocket", "Redux", "AI Integration"],
-    live: "#",
+    live: "https://ayur-nutri-bice.vercel.app/",
     github: "https://github.com/Shreyanshu-Gupta/AyurNutri",
     image: "/images/ayurnutri-preview.jpg", // Add your image in the public/images/ folder
   },
