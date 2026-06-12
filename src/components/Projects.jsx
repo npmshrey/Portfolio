@@ -40,7 +40,6 @@ export default function Projects() {
               transition={{ duration: 0.7, ease: "easeOut" }}
               className="project-card group relative grid lg:grid-cols-12 gap-10 items-center"
             >
-              {/* Image Side - Compact and Premium */}
               <div className="lg:col-span-6 h-[260px] md:h-[340px] rounded-2xl bg-[#111113] border border-white/5 relative overflow-hidden transition-all duration-500 group-hover:border-orange-500/30 group-hover:shadow-[0_0_30px_rgba(249,115,22,0.15)]">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(249,115,22,0.03)_1px,transparent_1px)] bg-[length:24px_24px]" />
                 
@@ -54,7 +53,7 @@ export default function Projects() {
                       e.currentTarget.nextSibling.style.display = 'flex';
                     }}
                   />
-                  {/* Overlay Gradient on Hover */}
+
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   
                   <div className="absolute inset-0 flex-col items-center justify-center hidden">
@@ -63,7 +62,7 @@ export default function Projects() {
                 </div>
               </div>
 
-              {/* Content Side */}
+
               <div className="lg:col-span-6 relative z-10 lg:pl-6">
                 <div className="flex flex-wrap gap-2 mb-5">
                   {project.tech.map((t) => (

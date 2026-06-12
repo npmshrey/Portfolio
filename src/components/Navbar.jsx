@@ -24,7 +24,7 @@ export default function Navbar() {
     const section = document.getElementById(id);
     if (!section) return;
 
-    const yOffset = -100; // floating navbar height offset
+    const yOffset = -100; 
     const y =
       section.getBoundingClientRect().top +
       window.pageYOffset +
@@ -40,7 +40,6 @@ export default function Navbar() {
 
   return (
     <>
-      {/* DESKTOP NAVBAR - CENTER PILL */}
       <motion.nav 
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -72,7 +71,6 @@ export default function Navbar() {
             </button>
           ))}
           
-          {/* Resume link added at the end */}
           <a
             href="/SHREYANSHU.pdf"
             target="_blank"
@@ -93,7 +91,6 @@ export default function Navbar() {
         </div>
       </motion.nav>
 
-      {/* DESKTOP NAVBAR - RIGHT CORNER CONTACT */}
       <motion.div 
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -109,7 +106,6 @@ export default function Navbar() {
         </button>
       </motion.div>
 
-      {/* MOBILE NAVBAR TOP BAR */}
       <nav className="fixed top-0 w-full z-50 md:hidden bg-[#050505]/80 backdrop-blur-md border-b border-orange-500/10 transition-colors duration-300">
         <div className="px-6 h-16 flex items-center justify-end text-white">
           <button onClick={() => setOpen(!open)} className="p-2 -mr-2 text-gray-300 hover:text-orange-400 transition-colors active:scale-95">
@@ -130,8 +126,7 @@ export default function Navbar() {
           </button>
         </div>
       </nav>
-
-      {/* MOBILE MENU */}
+      
       <AnimatePresence>
         {open && (
           <motion.div

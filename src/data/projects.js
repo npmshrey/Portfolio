@@ -6,7 +6,16 @@ export const projects = [
     tech: ["React", "Tailwind CSS", "Node.js", "Express.js", "MongoDB", "WebSocket", "Redux", "AI Integration"],
     live: "https://ayur-nutri-bice.vercel.app/",
     github: "https://github.com/Shreyanshu-Gupta/AyurNutri",
-    image: "/images/ayurnutri-preview.jpg", // Add your image in the public/images/ folder
+    image: "/images/ayurnutri-preview.png",
+  },
+  {
+    title: "WanderLust",
+    description: "A full-stack property rental booking platform supporting property hosting, listing management, ratings, reviews, destination-based exploration, and category-based filtering.",
+    impact: "Implemented secure authentication using Passport.js/JWT with HTTP-only cookies, integrated MongoDB operations, and designed responsive Next.js/React frontend interfaces.",
+    tech: ["Next.js", "React.js", "Node.js", "Express.js", "MongoDB", "Passport.js", "JWT"],
+    live: "#",
+    github: "https://github.com/npmshrey/WanderLust",
+    image: "/images/wanderlust-preview-v2.png",
   },
   {
     title: "Lane Violation System",
@@ -15,8 +24,12 @@ export const projects = [
     tech: ["Python", "OpenCV", "Computer Vision", "Machine Learning", "SMTP"],
     live: "#",
     github: "https://github.com/Shreyanshu-Gupta/Lane-Violation",
-    image: "/images/lane-preview.jpg", // Add your image in the public/images/ folder
-  },
+    image: "/images/lane-preview.png", 
+  }
+];
+
+/*
+export const commentedProjects = [
   {
     title: "Netflix Clone",
     description: "A fully responsive streaming platform clone featuring user authentication, seamless API integration with TMDB for real-time movie data, and dynamic trailer playback.",
@@ -24,6 +37,8 @@ export const projects = [
     tech: ["React", "Firebase", "Redux", "TMDB API", "CSS/Tailwind"],
     live: "https://netflix-clone-gamma-eight-71.vercel.app/",
     github: "https://github.com/Shreyanshu-Gupta/netflix-clone.git",
-    image: "/images/netflix-preview.jpg", // Add your image in the public/images/ folder
+    image: "/images/netflix-preview.jpg",
   }
 ];
+*/
+

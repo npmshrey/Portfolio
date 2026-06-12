@@ -179,12 +179,9 @@ function CodeCard() {
           }}
         />
 
-        {/* Inner Liquid Glass Card - Highly opaque dark base to block center bleed */}
         <div className="relative z-10 rounded-[23px] bg-[#0c0c0e]/95 backdrop-blur-3xl flex flex-col p-8 overflow-hidden shadow-2xl border border-white/5 group-hover:border-transparent transition-colors">
-          {/* Subtle reflection overlay for liquid feel */}
+          
           <div className="absolute inset-0 bg-gradient-to-tr from-orange-500/5 to-transparent pointer-events-none" />
-
-          {/* Inner Content */}
           <div className="w-full flex justify-between items-center mb-6 relative z-10">
             <div className="flex gap-2">
               <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
