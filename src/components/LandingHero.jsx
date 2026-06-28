@@ -21,105 +21,127 @@ export default function LandingHero() {
   ];
 
   return (
-    <section className="relative min-h-screen flex flex-col justify-center bg-white pt-16">
-      <div className="max-w-5xl w-full mx-auto px-8 flex flex-col justify-center relative z-10 flex-1">
+    <section className="relative min-h-screen flex items-center bg-white pt-16 overflow-hidden">
+      {/* Subtle grid background */}
+      <div className="absolute inset-0 bg-[linear-gradient(#E5E5E5_1px,transparent_1px),linear-gradient(90deg,#E5E5E5_1px,transparent_1px)] bg-[size:80px_80px] opacity-30 pointer-events-none z-0" />
+      
+      <div className="max-w-7xl w-full mx-auto px-8 grid lg:grid-cols-2 gap-8 lg:gap-0 items-center relative z-10 flex-1">
         
-        {/* Element 1: Available label */}
-        <motion.div
-          custom={0}
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          className="inline-flex items-center gap-2 mb-6 self-start"
-        >
-          <span className="w-2 h-2 rounded-full bg-[#E23744] animate-pulse" />
-          <span className="text-[11px] font-semibold text-[#E23744] uppercase tracking-[0.12em]">
-            Available for work
-          </span>
-        </motion.div>
-
-        {/* Element 2: Role label */}
-        <motion.div
-          custom={1}
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          className="text-[11px] font-semibold text-[#E23744] uppercase tracking-[0.15em] mb-3"
-        >
-          Frontend Engineer & Full Stack Developer
-        </motion.div>
-
-        {/* Element 3: Main headline */}
-        <motion.h1
-          custom={2}
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          className="text-[52px] sm:text-[72px] md:text-[88px] font-black text-[#1C1C1C] tracking-tight leading-[1.05] letter-spacing-[-0.02em]"
-        >
-          Not just a developer.<br />
-          A builder.
-        </motion.h1>
-
-        {/* Element 4: Subtext */}
-        <motion.p
-          custom={3}
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          className="text-[18px] text-[#666666] max-w-[580px] font-light leading-[1.7] mt-6"
-        >
-          I engineer high-performance web applications with a focus on polished UI, resilient architecture, and measurable impact.
-        </motion.p>
-
-        {/* Element 5: CTAs */}
-        <motion.div
-          custom={4}
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          className="mt-10 flex flex-wrap gap-4 items-center"
-        >
-          <a
-            href="#projects"
-            className="bg-[#E23744] text-white rounded-full px-8 py-4 font-semibold text-[15px] hover:bg-[#c4303b] transition-colors duration-200 cursor-pointer"
+        {/* Left Column */}
+        <div className="flex flex-col justify-center">
+          {/* Element 1: Available label (dot only) */}
+          <motion.div
+            custom={0}
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            className="inline-flex items-center mb-6 self-start"
           >
-            View Projects
-          </a>
-          <a
-            href="/SHREYANSHU.pdf"
-            target="_blank"
-            rel="noreferrer"
-            className="border-[1.5px] border-[#1C1C1C] text-[#1C1C1C] rounded-full px-8 py-4 font-medium text-[15px] hover:bg-[#1C1C1C] hover:text-white transition-all duration-200"
-          >
-            Download Resume
-          </a>
-        </motion.div>
+            <span className="w-2 h-2 rounded-full bg-[#E23744] animate-pulse" />
+          </motion.div>
 
-        {/* Element 6: Stats row */}
-        <motion.div
-          custom={5}
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          className="mt-12 flex gap-10 flex-wrap items-center"
-        >
-          {stats.map((stat, idx) => (
-            <div key={idx} className="flex items-center gap-10">
-              <div className="flex flex-col">
-                <span className="text-[28px] font-bold text-[#1C1C1C] leading-none">
-                  {stat.value}
-                </span>
-                <span className="text-[12px] text-[#999999] mt-1 font-medium whitespace-nowrap">
-                  {stat.label}
-                </span>
+          {/* Element 2: Role label */}
+          <motion.div
+            custom={1}
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            className="text-[11px] font-semibold text-[#E23744] uppercase tracking-[0.15em] mb-3"
+          >
+            Frontend Engineer & Full Stack Developer
+          </motion.div>
+
+          {/* Element 3: Main headline */}
+          <motion.h1
+            custom={2}
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            className="text-[clamp(48px,6vw,80px)] font-bold text-[#1C1C1C] tracking-tight leading-[1.05] letter-spacing-[-0.02em]"
+          >
+            Not just a developer.<br />
+            A builder.
+          </motion.h1>
+
+          {/* Element 4: Subtext */}
+          <motion.p
+            custom={3}
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            className="text-[18px] text-[#666666] max-w-[580px] font-light leading-[1.7] mt-6"
+          >
+            I engineer high-performance web applications with a focus on polished UI, resilient architecture, and measurable impact.
+          </motion.p>
+
+          {/* Element 5: CTAs */}
+          <motion.div
+            custom={4}
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            className="mt-10 flex flex-wrap gap-4 items-center"
+          >
+            <a
+              href="#projects"
+              className="bg-[#E23744] text-white rounded-full px-8 py-4 font-semibold text-[15px] hover:bg-[#c4303b] transition-colors duration-200 cursor-pointer"
+            >
+              View Projects
+            </a>
+            <a
+              href="/SHREYANSHU.pdf"
+              target="_blank"
+              rel="noreferrer"
+              className="border-[1.5px] border-[#1C1C1C] text-[#1C1C1C] rounded-full px-8 py-4 font-medium text-[15px] hover:bg-[#1C1C1C] hover:text-white transition-all duration-200"
+            >
+              Download Resume
+            </a>
+          </motion.div>
+
+          {/* Element 6: Stats row */}
+          <motion.div
+            custom={5}
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            className="mt-12 flex gap-10 flex-wrap items-center"
+          >
+            {stats.map((stat, idx) => (
+              <div key={idx} className="flex items-center gap-10">
+                <div className="flex flex-col">
+                  <span className="text-[28px] font-bold text-[#1C1C1C] leading-none">
+                    {stat.value}
+                  </span>
+                  <span className="text-[12px] text-[#999999] mt-1 font-medium whitespace-nowrap">
+                    {stat.label}
+                  </span>
+                </div>
+                {idx < stats.length - 1 && (
+                  <div className="w-px h-8 bg-[#E5E5E5] self-center" />
+                )}
               </div>
-              {idx < stats.length - 1 && (
-                <div className="w-px h-8 bg-[#E5E5E5] self-center" />
-              )}
+            ))}
+          </motion.div>
+        </div>
+
+        {/* Right Column: Profile Image */}
+        <div className="hidden lg:flex justify-center items-center">
+          <motion.div
+            custom={6}
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            className="mx-auto"
+          >
+            <div className="w-[clamp(280px,35vw,420px)] h-[clamp(280px,35vw,420px)] rounded-full overflow-hidden border border-[#E5E5E5] bg-white group cursor-pointer">
+              <img 
+                src="/images/Profile_img.jpeg" 
+                alt="Shreyanshu Kumar" 
+                className="w-full h-full object-cover object-[center_top] grayscale group-hover:grayscale-0 transition-all duration-700 ease-in-out"
+              />
             </div>
-          ))}
-        </motion.div>
+          </motion.div>
+        </div>
 
       </div>
 
