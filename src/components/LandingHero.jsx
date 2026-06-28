@@ -135,7 +135,7 @@ export default function LandingHero() {
           >
             <div className="w-[clamp(280px,35vw,420px)] h-[clamp(280px,35vw,420px)] rounded-full overflow-hidden border border-[#E5E5E5] bg-white group cursor-pointer">
               <img 
-                src="/images/Profile_img.jpeg" 
+                src="/images/profile.jpeg" 
                 alt="Shreyanshu Kumar" 
                 className="w-full h-full object-cover object-[center_top] grayscale group-hover:grayscale-0 transition-all duration-700 ease-in-out"
               />
