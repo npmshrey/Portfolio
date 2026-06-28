@@ -47,7 +47,7 @@ export default function FlipInline() {
           className="
             absolute inset-0
             flex items-center
-            text-blue-400
+            text-[#E23744]
             font-semibold
             whitespace-nowrap
           "

@@ -43,7 +43,7 @@ export default function Experience() {
   ];
 
   return (
-    <section id="experience" className="py-16 md:py-24 bg-[#050505] relative">
+    <section id="experience" className="py-32 bg-white relative">
       <div className="max-w-4xl mx-auto px-6">
         
         <div className="mb-16">
@@ -51,7 +51,7 @@ export default function Experience() {
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-sm font-semibold text-orange-500 tracking-wider uppercase mb-3"
+            className="text-sm font-semibold text-[#E23744] tracking-wider uppercase mb-3"
           >
             Career
           </motion.h2>
@@ -59,15 +59,14 @@ export default function Experience() {
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, delay: 0.1 }}
-            className="text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight"
+            className="text-4xl sm:text-5xl md:text-6xl font-black text-[#111111] tracking-tight"
           >
-            Professional <span className="text-gray-500 font-light">Experience.</span>
+            Professional Experience.
           </motion.h3>
         </div>
 
-        <div className="space-y-12 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-orange-500/20 before:to-transparent z-10">
+        <div className="relative border-l-2 border-[#E23744]/20 ml-4 md:ml-6 pl-8 space-y-12 z-10">
           {experiences.map((exp, i) => {
-            const isEven = i % 2 === 0;
             const isExpanded = expandedIndex === i;
 
             return (
@@ -77,27 +76,28 @@ export default function Experience() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="relative w-full flex items-start group is-active"
+                className="relative w-full group"
               >
-                <div className="absolute left-5 md:left-1/2 top-8 -translate-x-1/2 w-10 h-10 rounded-full border border-white/10 bg-[#050505] text-gray-400 shadow z-10 transition-colors duration-300 group-hover:border-orange-500 group-hover:bg-orange-500/10 flex items-center justify-center">
-                  <div className="w-2 h-2 bg-orange-500 rounded-full group-hover:scale-[1.8] group-hover:bg-orange-400 group-hover:shadow-[0_0_10px_rgba(249,115,22,0.8)] transition-all duration-300" />
+                {/* Red dot on timeline node */}
+                <div className="absolute -left-[41px] top-6 w-4 h-4 rounded-full border-2 border-[#E23744] bg-white flex items-center justify-center z-10 transition-transform group-hover:scale-125">
+                  <div className="w-1.5 h-1.5 bg-[#E23744] rounded-full" />
                 </div>
                 
                 <div 
                   onClick={() => setExpandedIndex(isExpanded ? null : i)}
-                  className={`w-[calc(100%-4rem)] ml-auto md:w-[calc(50%-3rem)] glass-card rounded-2xl p-6 cursor-pointer hover:border-orange-500/20 transition-all select-none ${isEven ? "md:mr-auto md:ml-0" : "md:ml-auto md:mr-0"}`}
+                  className="w-full bg-white border border-gray-200 rounded-2xl p-6 cursor-pointer hover:border-gray-300 hover:shadow-md transition-all duration-300 select-none"
                 >
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
-                    <h4 className="text-xl font-bold text-white group-hover:text-orange-400 transition-colors">{exp.role}</h4>
-                    <span className="text-sm font-medium text-gray-400 mt-1 sm:mt-0">{exp.period}</span>
+                    <h4 className="text-xl font-bold text-[#111111] group-hover:text-[#E23744] transition-colors">{exp.role}</h4>
+                    <span className="text-sm font-medium text-gray-500 mt-1 sm:mt-0">{exp.period}</span>
                   </div>
-                  <div className="text-orange-500/80 font-medium mb-3 group-hover:text-orange-500 transition-colors">{exp.company}</div>
-                  <p className="text-gray-300 text-sm mb-2">{exp.description}</p>
+                  <div className="text-[#E23744] font-semibold mb-3">{exp.company}</div>
+                  <p className="text-gray-600 text-sm mb-2">{exp.description}</p>
                   
-                  <div className="text-[11px] font-mono text-orange-400/80 uppercase tracking-widest mt-3 flex items-center gap-1.5">
+                  <div className="text-[11px] font-mono text-[#E23744] uppercase tracking-widest mt-3 flex items-center gap-1.5 font-bold">
                     <span>{isExpanded ? "Click to collapse" : "Click to view achievements"}</span>
                     <svg 
-                      className={`w-3 h-3 transform transition-transform duration-300 ${isExpanded ? "rotate-180" : ""}`}
+                      className={`w-3.5 h-3.5 text-[#E23744] transform transition-transform duration-300 ${isExpanded ? "rotate-180" : ""}`}
                       fill="none" 
                       viewBox="0 0 24 24" 
                       stroke="currentColor" 
@@ -114,12 +114,12 @@ export default function Experience() {
                         animate={{ opacity: 1, height: "auto" }}
                         exit={{ opacity: 0, height: 0 }}
                         transition={{ duration: 0.3 }}
-                        className="space-y-2 mt-4 pt-4 border-t border-white/5 overflow-hidden"
+                        className="space-y-2 mt-4 pt-4 border-t border-gray-100 overflow-hidden"
                       >
                         {exp.achievements.map((achieve, j) => (
-                          <li key={j} className="text-sm text-gray-500 flex items-start gap-2">
-                            <span className="text-orange-500/70 mt-0.5 opacity-70">▹</span>
-                            <span className="text-gray-400">{achieve}</span>
+                          <li key={j} className="text-sm text-gray-600 flex items-start gap-2">
+                            <span className="text-[#E23744] mt-0.5 font-semibold">▹</span>
+                            <span>{achieve}</span>
                           </li>
                         ))}
                       </motion.ul>

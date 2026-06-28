@@ -21,14 +21,14 @@ export default function Skills() {
   ];
 
   return (
-    <section id="skills" className="py-16 md:py-24 bg-[#050505] relative">
+    <section id="skills" className="py-32 bg-white relative">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="mb-16 text-center max-w-2xl mx-auto">
+        <div className="mb-16 text-left">
           <motion.h2 
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-sm font-semibold text-orange-500 tracking-wider uppercase mb-3"
+            className="text-sm font-semibold text-[#E23744] tracking-wider uppercase mb-3"
           >
             Capabilities
           </motion.h2>
@@ -36,9 +36,9 @@ export default function Skills() {
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, delay: 0.1 }}
-            className="text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight"
+            className="text-4xl sm:text-5xl md:text-6xl font-black text-[#111111] tracking-tight"
           >
-            Technical <span className="text-gray-500 font-light">Arsenal.</span>
+            Technical Arsenal.
           </motion.h3>
         </div>
 
@@ -50,17 +50,17 @@ export default function Skills() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="glass-card flex flex-col h-full rounded-3xl p-8"
+              className="bg-white border border-gray-200 border-l-4 border-l-transparent hover:border-l-[#E23744] hover:shadow-md transition-all duration-300 flex flex-col h-full rounded-3xl p-8"
             >
-              <h4 className="text-xl font-bold text-white mb-6 flex items-center gap-3">
-                <span className="w-8 h-px bg-orange-500/50 block"></span>
+              <h4 className="text-lg font-bold text-[#111111] mb-6 flex items-center gap-3">
+                <span className="w-8 h-px bg-[#E23744] block"></span>
                 {category.title}
               </h4>
               <div className="flex flex-wrap gap-2 mt-auto">
                 {category.skills.map((skill, j) => (
                   <span
                     key={j}
-                    className="px-3 py-1.5 bg-white/5 border border-white/10 text-gray-300 text-sm rounded-lg hover:bg-orange-500/10 hover:border-orange-500/40 hover:text-orange-300 transition-colors cursor-default"
+                    className="px-3 py-1.5 bg-gray-100 border border-transparent text-[#111111] text-sm rounded-lg hover:bg-[#E23744] hover:text-white transition-all duration-200 cursor-default font-semibold"
                   >
                     {skill}
                   </span>
