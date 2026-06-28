@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
 const fadeUp = {
@@ -11,6 +12,47 @@ const fadeUp = {
       ease: [0.21, 0.47, 0.32, 0.98],
     },
   }),
+};
+
+const Typewriter = ({ words, delay = 100, pause = 2000 }) => {
+  const [currentWordIndex, setCurrentWordIndex] = useState(0);
+  const [currentText, setCurrentText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    let timeout;
+    const currentWord = words[currentWordIndex];
+
+    if (isDeleting) {
+      timeout = setTimeout(() => {
+        setCurrentText(currentWord.substring(0, currentText.length - 1));
+        if (currentText.length === 0) {
+          setIsDeleting(false);
+          setCurrentWordIndex((prev) => (prev + 1) % words.length);
+        }
+      }, delay / 2);
+    } else {
+      timeout = setTimeout(() => {
+        setCurrentText(currentWord.substring(0, currentText.length + 1));
+        if (currentText.length === currentWord.length) {
+          timeout = setTimeout(() => setIsDeleting(true), pause);
+        }
+      }, delay);
+    }
+
+    return () => clearTimeout(timeout);
+  }, [currentText, isDeleting, currentWordIndex, words, delay, pause]);
+
+  return (
+    <>
+      {currentText}
+      <motion.span
+        animate={{ opacity: [1, 0] }}
+        transition={{ repeat: Infinity, duration: 0.8 }}
+        className="inline-block w-[8px] h-[1em] bg-[#E23744] align-middle ml-[2px]"
+      />
+    </>
+  );
 };
 
 export default function LandingHero() {
@@ -29,20 +71,9 @@ export default function LandingHero() {
         
         {/* Left Column */}
         <div className="flex flex-col justify-center">
-          {/* Element 1: Available label (dot only) */}
+          {/* Element 1: Role label */}
           <motion.div
             custom={0}
-            variants={fadeUp}
-            initial="hidden"
-            animate="visible"
-            className="inline-flex items-center mb-6 self-start"
-          >
-            <span className="w-2 h-2 rounded-full bg-[#E23744] animate-pulse" />
-          </motion.div>
-
-          {/* Element 2: Role label */}
-          <motion.div
-            custom={1}
             variants={fadeUp}
             initial="hidden"
             animate="visible"
@@ -51,9 +82,9 @@ export default function LandingHero() {
             Frontend Engineer & Full Stack Developer
           </motion.div>
 
-          {/* Element 3: Main headline */}
+          {/* Element 2: Main headline */}
           <motion.h1
-            custom={2}
+            custom={1}
             variants={fadeUp}
             initial="hidden"
             animate="visible"
@@ -62,6 +93,17 @@ export default function LandingHero() {
             Not just a developer.<br />
             A builder.
           </motion.h1>
+
+          {/* Element 3: Typewriter Line */}
+          <motion.div 
+            custom={2}
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            className="text-[18px] font-medium text-gray-500 mt-4 tracking-normal"
+          >
+            Shreyanshu Kumar / <span className="text-[#E23744] font-semibold"><Typewriter words={["Engineer", "Architect", "Designer"]} delay={100} pause={2000} /></span>
+          </motion.div>
 
           {/* Element 4: Subtext */}
           <motion.p
