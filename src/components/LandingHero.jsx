@@ -1,6 +1,4 @@
-import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import FlipInline from "./FlipInline";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -8,204 +6,137 @@ const fadeUp = {
     opacity: 1,
     y: 0,
     transition: {
-      delay: i * 0.15,
+      delay: i * 0.12,
       duration: 0.8,
       ease: [0.21, 0.47, 0.32, 0.98],
     },
   }),
 };
 
-const Typewriter = ({ words, delay = 150, pause = 2000 }) => {
-  const [currentWordIndex, setCurrentWordIndex] = useState(0);
-  const [currentText, setCurrentText] = useState("");
-  const [isDeleting, setIsDeleting] = useState(false);
-
-  useEffect(() => {
-    let timeout;
-    const currentWord = words[currentWordIndex];
-
-    if (isDeleting) {
-      timeout = setTimeout(() => {
-        setCurrentText(currentWord.substring(0, currentText.length - 1));
-        if (currentText.length === 0) {
-          setIsDeleting(false);
-          setCurrentWordIndex((prev) => (prev + 1) % words.length);
-        }
-      }, delay / 2);
-    } else {
-      timeout = setTimeout(() => {
-        setCurrentText(currentWord.substring(0, currentText.length + 1));
-        if (currentText.length === currentWord.length) {
-          timeout = setTimeout(() => setIsDeleting(true), pause);
-        }
-      }, delay);
-    }
-
-    return () => clearTimeout(timeout);
-  }, [currentText, isDeleting, currentWordIndex, words, delay, pause]);
-
-  return (
-    <>
-      {currentText}
-      <motion.span
-        animate={{ opacity: [1, 0] }}
-        transition={{ repeat: Infinity, duration: 0.8 }}
-        className="inline-block w-[8px] h-[1em] bg-orange-500 align-middle ml-[1px]"
-      />
-    </>
-  );
-};
-
 export default function LandingHero() {
+  const stats = [
+    { value: "3", label: "Hackathon Wins" },
+    { value: "3+", label: "Projects Shipped" },
+    { value: "2+", label: "Years Building" }
+  ];
+
   return (
-    <section className="relative min-h-screen flex flex-col justify-center pt-24 pb-12 overflow-hidden bg-white">
-      <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center relative z-10 w-full">
-        {/* LEFT COMPONENT */}
-        <div className="max-w-2xl lg:pl-10">
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 mb-6"
-          >
-            <span className="w-2 h-2 rounded-full bg-[#E23744] animate-pulse" />
-            <span className="text-xs font-semibold text-[#E23744] uppercase tracking-widest">
-              Available for work
-            </span>
-          </motion.div>
+    <section className="relative min-h-screen flex flex-col justify-center bg-white pt-16">
+      <div className="max-w-5xl w-full mx-auto px-8 flex flex-col justify-center relative z-10 flex-1">
+        
+        {/* Element 1: Available label */}
+        <motion.div
+          custom={0}
+          variants={fadeUp}
+          initial="hidden"
+          animate="visible"
+          className="inline-flex items-center gap-2 mb-6 self-start"
+        >
+          <span className="w-2 h-2 rounded-full bg-[#E23744] animate-pulse" />
+          <span className="text-[11px] font-semibold text-[#E23744] uppercase tracking-[0.12em]">
+            Available for work
+          </span>
+        </motion.div>
 
-          <motion.h1
-            initial="hidden"
-            animate="visible"
-            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-[#111111] tracking-tight leading-[1.05]"
-          >
-            <motion.div variants={fadeUp} custom={0}>
-              Not just a developer. <br />
-              A builder.
-            </motion.div>
-          </motion.h1>
+        {/* Element 2: Role label */}
+        <motion.div
+          custom={1}
+          variants={fadeUp}
+          initial="hidden"
+          animate="visible"
+          className="text-[11px] font-semibold text-[#E23744] uppercase tracking-[0.15em] mb-3"
+        >
+          Frontend Engineer & Full Stack Developer
+        </motion.div>
 
-          <motion.div 
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.6 }}
-            className="text-lg md:text-xl font-medium text-gray-500 mt-4 tracking-normal"
-          >
-            Shreyanshu Kumar / <span className="text-[#E23744] font-semibold"><Typewriter words={["Engineer", "Architect", "Designer"]} delay={100} pause={2000} /></span>
-          </motion.div>
+        {/* Element 3: Main headline */}
+        <motion.h1
+          custom={2}
+          variants={fadeUp}
+          initial="hidden"
+          animate="visible"
+          className="text-[52px] sm:text-[72px] md:text-[88px] font-black text-[#1C1C1C] tracking-tight leading-[1.05] letter-spacing-[-0.02em]"
+        >
+          Not just a developer.<br />
+          A builder.
+        </motion.h1>
 
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.6 }}
-            className="text-gray-500 text-lg md:text-xl mt-6 max-w-xl leading-relaxed font-normal"
-          >
-            I engineer high-performance web applications with a focus on polished UI, resilient architecture, and measurable impact.
-          </motion.p>
+        {/* Element 4: Subtext */}
+        <motion.p
+          custom={3}
+          variants={fadeUp}
+          initial="hidden"
+          animate="visible"
+          className="text-[18px] text-[#666666] max-w-[580px] font-light leading-[1.7] mt-6"
+        >
+          I engineer high-performance web applications with a focus on polished UI, resilient architecture, and measurable impact.
+        </motion.p>
 
-          {/* CTA Buttons */}
-          <motion.div 
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.6 }}
-            className="mt-8 flex flex-wrap gap-4 items-center"
+        {/* Element 5: CTAs */}
+        <motion.div
+          custom={4}
+          variants={fadeUp}
+          initial="hidden"
+          animate="visible"
+          className="mt-10 flex flex-wrap gap-4 items-center"
+        >
+          <a
+            href="#projects"
+            className="bg-[#E23744] text-white rounded-full px-8 py-4 font-semibold text-[15px] hover:bg-[#c4303b] transition-colors duration-200 cursor-pointer"
           >
-            <a
-              href="#projects"
-              className="px-8 py-3.5 rounded-full bg-[#E23744] hover:bg-[#c92f3a] text-white font-semibold transition-colors duration-300 shadow-sm"
-            >
-              View Projects
-            </a>
-            <a
-              href="#contact"
-              className="px-8 py-3.5 rounded-full border border-gray-300 hover:border-gray-900 text-[#111111] font-medium transition-colors duration-300"
-            >
-              Contact Me
-            </a>
-          </motion.div>
-        </div>
+            View Projects
+          </a>
+          <a
+            href="/SHREYANSHU.pdf"
+            target="_blank"
+            rel="noreferrer"
+            className="border-[1.5px] border-[#1C1C1C] text-[#1C1C1C] rounded-full px-8 py-4 font-medium text-[15px] hover:bg-[#1C1C1C] hover:text-white transition-all duration-200"
+          >
+            Download Resume
+          </a>
+        </motion.div>
 
-        {/* RIGHT VISUAL ELEMENT */}
-        <div className="hidden lg:flex justify-center -mt-6 relative">
-          <motion.div
-            initial={{ y: 0 }}
-            animate={{ y: [-10, 10, -10] }}
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-          >
-            <CodeCard />
-          </motion.div>
-        </div>
+        {/* Element 6: Stats row */}
+        <motion.div
+          custom={5}
+          variants={fadeUp}
+          initial="hidden"
+          animate="visible"
+          className="mt-12 flex gap-10 flex-wrap items-center"
+        >
+          {stats.map((stat, idx) => (
+            <div key={idx} className="flex items-center gap-10">
+              <div className="flex flex-col">
+                <span className="text-[28px] font-bold text-[#1C1C1C] leading-none">
+                  {stat.value}
+                </span>
+                <span className="text-[12px] text-[#999999] mt-1 font-medium whitespace-nowrap">
+                  {stat.label}
+                </span>
+              </div>
+              {idx < stats.length - 1 && (
+                <div className="w-px h-8 bg-[#E5E5E5] self-center" />
+              )}
+            </div>
+          ))}
+        </motion.div>
+
+      </div>
+
+      {/* Element 7: Scroll indicator */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
+        <motion.div
+          animate={{ y: [0, 8, 0] }}
+          transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+          className="text-[#E23744] text-[20px] font-bold cursor-pointer"
+          onClick={() => {
+            const nextSec = document.getElementById("achievements");
+            if (nextSec) nextSec.scrollIntoView({ behavior: "smooth" });
+          }}
+        >
+          ↓
+        </motion.div>
       </div>
     </section>
-  );
-}
-
-function CodeCard() {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isHovered, setIsHovered] = useState(false);
-
-  const handleMouseMove = (e) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    setMousePosition({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
-  };
-
-  return (
-    <motion.div 
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.8, delay: 0.3 }}
-      className="relative w-full max-w-[380px] rotate-[2deg] hover:rotate-0 transition-transform duration-500 rounded-3xl overflow-hidden"
-    >
-      {/* Container for Edge Glow */}
-      <div 
-        onMouseMove={handleMouseMove}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        className="rounded-3xl p-[1px] overflow-hidden group cursor-default relative bg-gray-100"
-      >
-        {/* Dynamic Glowing Border Behind Inner Card */}
-        <motion.div
-          className="absolute -inset-px z-0 pointer-events-none transition-opacity duration-300"
-          animate={{ opacity: isHovered ? 1 : 0 }}
-          style={{
-            background: `radial-gradient(250px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(226,55,68,0.2), transparent 100%)`
-          }}
-        />
-
-        <div className="relative z-10 rounded-[23px] bg-white flex flex-col p-8 overflow-hidden shadow-lg border border-gray-200">
-          <div className="w-full flex justify-between items-center mb-6 relative z-10">
-            <div className="flex gap-2">
-              <div className="w-3 h-3 rounded-full bg-red-400"></div>
-              <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
-              <div className="w-3 h-3 rounded-full bg-green-400"></div>
-            </div>
-            <div className="text-xs text-gray-400 font-mono">portfolio.jsx</div>
-          </div>
-          
-          <div className="space-y-4 font-mono text-sm relative z-10 text-gray-600">
-            <div>
-              import <span className="text-gray-900 font-semibold">
-                <Typewriter words={["Experience", "Innovation", "Scalability", "Design"]} delay={100} />
-              </span> from <span className="text-[#E23744]">"./impact"</span>;
-            </div>
-            <div>
-              import <span className="text-gray-900 font-semibold">
-                <Typewriter words={["Code", "Logic", "State", "Velocity"]} delay={120} pause={2500} />
-              </span> from <span className="text-[#E23744]">"./aesthetics"</span>;
-            </div>
-            <br/>
-            <div className="text-gray-400">// Building the future,</div>
-            <div className="text-gray-400">// one line of code at a time</div>
-            <br/>
-            <div className="text-[#E23744] font-medium">const <span className="text-gray-900 font-semibold">Developer</span> = <span className="text-[#E23744] font-semibold">() =&gt;</span> {'{'}</div>
-            <div className="pl-4 text-gray-700">return <span className="text-gray-900 font-semibold">&lt;Masterpiece /&gt;</span>;</div>
-            <div className="text-[#E23744] font-medium">{'}'}</div>
-          </div>
-        </div>
-      </div>
-    </motion.div>
   );
 }

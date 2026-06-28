@@ -2,14 +2,14 @@
 
 @theme {
   --color-background: #ffffff;
-  --color-foreground: #111111;
-  --color-primary: #111111;
+  --color-foreground: #1C1C1C;
+  --color-primary: #1C1C1C;
   --color-primary-foreground: #ffffff;
   --color-accent: #E23744; /* Zomato/Eternal Red */
   --color-accent-hover: #c92f3a; /* Darker Red */
-  --color-muted: #f3f4f6; /* Gray 100 */
-  --color-muted-foreground: #4b5563; /* Gray 600 */
-  --color-border: #e5e7eb; /* Gray 200 */
+  --color-muted: #F5F5F5; /* Light gray track */
+  --color-muted-foreground: #666666; 
+  --color-border: #E5E5E5; 
 
   --font-sans: "Inter", sans-serif;
 }
@@ -18,7 +18,7 @@
   html {
     font-family: var(--font-sans);
     scroll-behavior: smooth;
-    scroll-padding-top: 100px;
+    scroll-padding-top: 80px; /* offset for h-16 navbar */
     color-scheme: light;
   }
 
@@ -28,20 +28,18 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
+    font-size: 15px;
+    line-height: 1.7;
   }
 }
 
 @layer utilities {
-  .glass {
-    @apply bg-white border border-gray-200;
-  }
-
-  .glass-card {
-    @apply bg-white border border-gray-200 hover:shadow-md hover:border-gray-300 transition-all duration-300;
+  .card {
+    @apply bg-white border border-[#E5E5E5] rounded-xl transition-all duration-300 hover:border-[#E23744] hover:border-l-[4px];
   }
 
   .text-gradient {
-    @apply text-[#111111];
+    @apply text-[#1C1C1C];
   }
   
   .text-gradient-orange {
@@ -49,14 +47,14 @@
   }
 
   .text-gradient-blue {
-    @apply text-[#111111];
+    @apply text-[#1C1C1C];
   }
 }
 
 /* Custom Selection */
 ::selection {
-  background-color: rgba(226, 55, 68, 0.2); /* Red selection */
-  color: #111111;
+  background-color: rgba(226, 55, 68, 0.15); /* Red selection */
+  color: #1C1C1C;
 }
 
 /* Custom Scrollbar */
@@ -65,7 +63,7 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #ffffff;
+  background: #F5F5F5;
 }
 
 ::-webkit-scrollbar-thumb {

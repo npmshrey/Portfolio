@@ -43,15 +43,15 @@ export default function Experience() {
   ];
 
   return (
-    <section id="experience" className="py-32 bg-white relative">
-      <div className="max-w-4xl mx-auto px-6">
+    <section id="experience" className="py-20 border-t border-[#E5E5E5] max-w-4xl mx-auto px-6 relative bg-white">
+      <div>
         
-        <div className="mb-16">
+        <div className="mb-10">
           <motion.h2 
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-sm font-semibold text-[#E23744] tracking-wider uppercase mb-3"
+            className="text-[11px] font-semibold text-[#E23744] tracking-[0.15em] uppercase mb-2"
           >
             Career
           </motion.h2>
@@ -59,13 +59,13 @@ export default function Experience() {
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, delay: 0.1 }}
-            className="text-4xl sm:text-5xl md:text-6xl font-black text-[#111111] tracking-tight"
+            className="text-[56px] font-bold text-[#1C1C1C] leading-[1.05]"
           >
-            Professional Experience.
+            Professional <span className="font-light text-[#999]">Experience.</span>
           </motion.h3>
         </div>
 
-        <div className="relative border-l-2 border-[#E23744]/20 ml-4 md:ml-6 pl-8 space-y-12 z-10">
+        <div className="relative before:absolute before:left-0 before:top-0 before:w-[2px] before:h-full before:bg-[#E5E5E5] ml-4 md:ml-6">
           {experiences.map((exp, i) => {
             const isExpanded = expandedIndex === i;
 
@@ -76,25 +76,23 @@ export default function Experience() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="relative w-full group"
+                className="relative pl-10 mb-10 w-full group"
               >
-                {/* Red dot on timeline node */}
-                <div className="absolute -left-[41px] top-6 w-4 h-4 rounded-full border-2 border-[#E23744] bg-white flex items-center justify-center z-10 transition-transform group-hover:scale-125">
-                  <div className="w-1.5 h-1.5 bg-[#E23744] rounded-full" />
-                </div>
+                {/* Red dot on timeline node (top-[28px]) */}
+                <div className="absolute left-[-5px] top-[28px] w-3 h-3 rounded-full bg-[#E23744] border-2 border-white z-10 transition-transform group-hover:scale-125" />
                 
                 <div 
                   onClick={() => setExpandedIndex(isExpanded ? null : i)}
-                  className="w-full bg-white border border-gray-200 rounded-2xl p-6 cursor-pointer hover:border-gray-300 hover:shadow-md transition-all duration-300 select-none"
+                  className="w-full bg-white border border-[#E5E5E5] rounded-xl p-6 cursor-pointer hover:border-[#E23744] hover:border-l-[4px] transition-all duration-300 select-none"
                 >
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
-                    <h4 className="text-xl font-bold text-[#111111] group-hover:text-[#E23744] transition-colors">{exp.role}</h4>
-                    <span className="text-sm font-medium text-gray-500 mt-1 sm:mt-0">{exp.period}</span>
+                    <h4 className="text-[20px] font-bold text-[#1C1C1C] group-hover:text-[#E23744] transition-colors duration-300">{exp.role}</h4>
+                    <span className="text-[13px] text-[#999] mt-1 sm:mt-0 font-medium">{exp.period}</span>
                   </div>
-                  <div className="text-[#E23744] font-semibold mb-3">{exp.company}</div>
-                  <p className="text-gray-600 text-sm mb-2">{exp.description}</p>
+                  <div className="text-[14px] text-[#E23744] font-medium mb-3">{exp.company}</div>
+                  <p className="text-[#666666] text-sm mb-2">{exp.description}</p>
                   
-                  <div className="text-[11px] font-mono text-[#E23744] uppercase tracking-widest mt-3 flex items-center gap-1.5 font-bold">
+                  <div className="text-[11px] font-semibold text-[#E23744] uppercase tracking-widest mt-3 flex items-center gap-1.5 cursor-pointer">
                     <span>{isExpanded ? "Click to collapse" : "Click to view achievements"}</span>
                     <svg 
                       className={`w-3.5 h-3.5 text-[#E23744] transform transition-transform duration-300 ${isExpanded ? "rotate-180" : ""}`}
@@ -114,7 +112,7 @@ export default function Experience() {
                         animate={{ opacity: 1, height: "auto" }}
                         exit={{ opacity: 0, height: 0 }}
                         transition={{ duration: 0.3 }}
-                        className="space-y-2 mt-4 pt-4 border-t border-gray-100 overflow-hidden"
+                        className="space-y-2 mt-4 pt-4 border-t border-[#E5E5E5] overflow-hidden"
                       >
                         {exp.achievements.map((achieve, j) => (
                           <li key={j} className="text-sm text-gray-600 flex items-start gap-2">

@@ -1,6 +1,9 @@
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Skills() {
+  const [activeCategory, setActiveCategory] = useState(0);
+
   const customCategories = [
     {
       title: "Languages & Frontend",
@@ -21,14 +24,14 @@ export default function Skills() {
   ];
 
   return (
-    <section id="skills" className="py-32 bg-white relative">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="mb-16 text-left">
+    <section id="skills" className="py-20 border-t border-[#E5E5E5] bg-white relative">
+      <div className="max-w-7xl mx-auto px-8">
+        <div className="mb-10 text-left">
           <motion.h2 
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-sm font-semibold text-[#E23744] tracking-wider uppercase mb-3"
+            className="text-[11px] font-semibold text-[#E23744] tracking-[0.15em] uppercase mb-2"
           >
             Capabilities
           </motion.h2>
@@ -36,38 +39,78 @@ export default function Skills() {
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, delay: 0.1 }}
-            className="text-4xl sm:text-5xl md:text-6xl font-black text-[#111111] tracking-tight"
+            className="text-[56px] font-bold text-[#1C1C1C] leading-[1.05]"
           >
-            Technical Arsenal.
+            Technical <span className="font-light text-[#999]">Arsenal.</span>
           </motion.h3>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {customCategories.map((category, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="bg-white border border-gray-200 border-l-4 border-l-transparent hover:border-l-[#E23744] hover:shadow-md transition-all duration-300 flex flex-col h-full rounded-3xl p-8"
-            >
-              <h4 className="text-lg font-bold text-[#111111] mb-6 flex items-center gap-3">
-                <span className="w-8 h-px bg-[#E23744] block"></span>
-                {category.title}
-              </h4>
-              <div className="flex flex-wrap gap-2 mt-auto">
-                {category.skills.map((skill, j) => (
+        <div className="mt-10 border border-[#E5E5E5] rounded-2xl overflow-hidden grid lg:grid-cols-12 bg-white">
+          
+          {/* Left panel - Desktop only (hidden on mobile) */}
+          <div className="hidden lg:block lg:col-span-4 border-r border-[#E5E5E5] bg-white">
+            {customCategories.map((category, idx) => {
+              const isActive = activeCategory === idx;
+              return (
+                <div
+                  key={idx}
+                  onClick={() => setActiveCategory(idx)}
+                  onMouseEnter={() => setActiveCategory(idx)}
+                  className={`px-8 py-6 border-b border-[#E5E5E5] last:border-b-0 cursor-pointer text-[17px] font-medium transition-all duration-200 ${
+                    isActive 
+                      ? "text-[#E23744] bg-[#FFF8F8] border-l-[4px] border-l-[#E23744] pl-[28px]" 
+                      : "text-[#555] border-l-[4px] border-l-transparent hover:text-[#E23744] hover:bg-gray-50"
+                  }`}
+                >
+                  {category.title}
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Mobile Tab Strip (visible on mobile only) */}
+          <div className="lg:hidden lg:col-span-12 flex overflow-x-auto gap-2 p-4 border-b border-[#E5E5E5] scrollbar-none bg-white">
+            {customCategories.map((category, idx) => {
+              const isActive = activeCategory === idx;
+              return (
+                <button
+                  key={idx}
+                  onClick={() => setActiveCategory(idx)}
+                  className={`px-4 py-2 rounded-full text-[13px] font-medium whitespace-nowrap border transition-all duration-200 cursor-pointer ${
+                    isActive 
+                      ? "bg-[#E23744] text-white border-[#E23744]" 
+                      : "bg-[#F5F5F5] text-[#555] border-[#E5E5E5] hover:bg-gray-100"
+                  }`}
+                >
+                  {category.title}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Right panel - Skill tag cloud */}
+          <div className="lg:col-span-8 p-8 bg-white flex flex-col justify-center min-h-[300px]">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeCategory}
+                initial={{ opacity: 0, x: 12 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -12 }}
+                transition={{ duration: 0.2 }}
+                className="flex flex-wrap gap-2"
+              >
+                {customCategories[activeCategory].skills.map((skill, j) => (
                   <span
                     key={j}
-                    className="px-3 py-1.5 bg-gray-100 border border-transparent text-[#111111] text-sm rounded-lg hover:bg-[#E23744] hover:text-white transition-all duration-200 cursor-default font-semibold"
+                    className="inline-block px-4 py-2 bg-[#F5F5F5] text-[#1C1C1C] text-[14px] rounded-full hover:bg-[#E23744] hover:text-white transition-all duration-200 cursor-default font-medium"
                   >
                     {skill}
                   </span>
                 ))}
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
         </div>
       </div>
     </section>

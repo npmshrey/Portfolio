@@ -17,15 +17,19 @@ gsap.registerPlugin(ScrollTrigger);
 
 function App() {
   return (
-    <div className="bg-white min-h-screen font-sans text-[#111111] overflow-x-hidden w-full max-w-[100vw]">
+    <div className="bg-white text-[#1C1C1C] min-h-screen font-sans overflow-x-hidden">
       <Navbar />
       <LandingHero />
       <Achievements />
       <Projects />
       <Experience />
       <Skills />
-      <Certifications />
-      <About />
+      <section className="py-20 border-t border-[#E5E5E5]">
+        <div className="max-w-7xl mx-auto px-8 grid lg:grid-cols-2 gap-16 items-start">
+          <Certifications />
+          <About />
+        </div>
+      </section>
       <Contact />
       <Footer />
     </div>
