@@ -8,6 +8,7 @@ export default function Experience() {
     {
       role: "Frontend Engineer Intern",
       company: "Campus-Pull",
+      url: "https://campuspull.in",
       period: "Feb 2026 – Present",
       description: "Architected frontend features and real-time systems, focusing on chat, interactive tools, authentication, and global state optimization.",
       achievements: [
@@ -79,7 +80,30 @@ export default function Experience() {
                     <h4 className="text-[20px] font-bold text-[#1C1C1C] group-hover:text-[#E23744] transition-colors duration-300">{exp.role}</h4>
                     <span className="text-[13px] text-[#999] mt-1 sm:mt-0 font-medium">{exp.period}</span>
                   </div>
-                  <div className="text-[14px] text-[#E23744] font-medium mb-3">{exp.company}</div>
+                  <div className="text-[14px] text-[#E23744] font-medium mb-3">
+                    {exp.url ? (
+                      <a 
+                        href={exp.url} 
+                        target="_blank" 
+                        rel="noreferrer" 
+                        className="hover:underline inline-flex items-center gap-1 cursor-pointer"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        {exp.company}
+                        <svg 
+                          className="w-3.5 h-3.5" 
+                          fill="none" 
+                          viewBox="0 0 24 24" 
+                          stroke="currentColor" 
+                          strokeWidth={2.5}
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                      </a>
+                    ) : (
+                      exp.company
+                    )}
+                  </div>
                   <p className="text-[#666666] text-sm mb-2">{exp.description}</p>
                   
                   <div className="text-[11px] font-semibold text-[#E23744] uppercase tracking-widest mt-3 flex items-center gap-1.5 cursor-pointer">
