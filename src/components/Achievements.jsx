@@ -44,7 +44,7 @@ export default function Achievements() {
   };
 
   return (
-    <section id="achievements" className="py-20 border-t border-[#E5E5E5] relative bg-white overflow-hidden z-10" ref={container}>
+    <section id="hackathon-victories" className="py-20 border-t border-[#E5E5E5] relative bg-white overflow-hidden z-10" ref={container}>
       <div className="max-w-7xl mx-auto px-8">
         
         <div className="mb-10 text-left">

@@ -34,7 +34,7 @@ export default function Navbar() {
   const navLinks = [
     { label: "Projects", id: "projects" },
     { label: "Experience", id: "experience" },
-    { label: "Skills", id: "skills" },
+    { label: "Skills", id: "technical-arsenal" },
   ];
 
   return (

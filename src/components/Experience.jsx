@@ -29,16 +29,6 @@ export default function Experience() {
         "Deployed containerized ML pipelines utilizing Docker and Kubeflow.",
         "Developed scalable multi-person face recognition systems."
       ]
-    },
-    {
-      role: "Web Developer",
-      company: "Zidio Development",
-      period: "Aug 2024 – Oct 2024",
-      description: "Full-stack web development utilizing the MERN stack.",
-      achievements: [
-        "Architected and deployed full-stack MERN web applications.",
-        "Integrated robust REST APIs to bridge frontend UI and backend services.",
-      ]
     }
   ];
 

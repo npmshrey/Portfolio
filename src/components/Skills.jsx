@@ -24,7 +24,7 @@ export default function Skills() {
   ];
 
   return (
-    <section id="skills" className="py-20 border-t border-[#E5E5E5] bg-white relative">
+    <section id="technical-arsenal" className="py-20 border-t border-[#E5E5E5] bg-white relative">
       <div className="max-w-7xl mx-auto px-8">
         <div className="mb-10 text-left">
           <motion.h2 

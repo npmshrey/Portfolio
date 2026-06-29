@@ -79,7 +79,7 @@ export default function LandingHero() {
             animate="visible"
             className="text-[11px] font-semibold text-[#E23744] uppercase tracking-[0.15em] mb-3"
           >
-            Frontend Engineer & Full Stack Developer
+            Frontend focused & Backend Support Engineer
           </motion.div>
 
           {/* Element 2: Main headline */}
@@ -194,7 +194,7 @@ export default function LandingHero() {
           transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
           className="text-[#E23744] text-[20px] font-bold cursor-pointer"
           onClick={() => {
-            const nextSec = document.getElementById("achievements");
+            const nextSec = document.getElementById("experience");
             if (nextSec) nextSec.scrollIntoView({ behavior: "smooth" });
           }}
         >
