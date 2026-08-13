@@ -1,15 +1,15 @@
 @import "tailwindcss";
 
 @theme {
-  --color-background: #ffffff;
-  --color-foreground: #1C1C1C;
-  --color-primary: #1C1C1C;
-  --color-primary-foreground: #ffffff;
+  --color-background: #000000;
+  --color-foreground: #ffffff;
+  --color-primary: #ffffff;
+  --color-primary-foreground: #000000;
   --color-accent: #E23744; /* Zomato/Eternal Red */
-  --color-accent-hover: #c92f3a; /* Darker Red */
-  --color-muted: #F5F5F5; /* Light gray track */
-  --color-muted-foreground: #666666; 
-  --color-border: #E5E5E5; 
+  --color-accent-hover: #f0515d; /* Lighter Red */
+  --color-muted: #121212;
+  --color-muted-foreground: #a3a3a3;
+  --color-border: rgba(255, 255, 255, 0.08);
 
   --font-sans: "Inter", sans-serif;
 }
@@ -18,13 +18,15 @@
   html {
     font-family: var(--font-sans);
     scroll-behavior: smooth;
-    scroll-padding-top: 80px; /* offset for h-16 navbar */
-    color-scheme: light;
+    scroll-padding-top: 80px;
+    color-scheme: dark;
+    background-color: #000000;
+    color: #ffffff;
   }
 
   body {
-    background-color: var(--color-background);
-    color: var(--color-foreground);
+    background-color: #000000;
+    color: #ffffff;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
@@ -34,27 +36,41 @@
 }
 
 @layer utilities {
-  .card {
-    @apply bg-white border border-[#E5E5E5] rounded-xl transition-all duration-300 hover:border-[#E23744] hover:border-l-[4px];
+  .glass-card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+  }
+
+  .glass-card-hover {
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+  .glass-card-hover:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 10px 30px -15px rgba(0, 0, 0, 0.7);
   }
 
   .text-gradient {
-    @apply text-[#1C1C1C];
-  }
-  
-  .text-gradient-orange {
-    @apply text-[#E23744];
+    background: linear-gradient(135deg, #ffffff 0%, #a3a3a3 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 
-  .text-gradient-blue {
-    @apply text-[#1C1C1C];
+  .text-gradient-accent {
+    background: linear-gradient(135deg, #ff7e8a 0%, #E23744 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 }
 
 /* Custom Selection */
 ::selection {
-  background-color: rgba(226, 55, 68, 0.15); /* Red selection */
-  color: #1C1C1C;
+  background-color: rgba(226, 55, 68, 0.3);
+  color: #ffffff;
 }
 
 /* Custom Scrollbar */
@@ -63,14 +79,51 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #F5F5F5;
+  background: #000000;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #d1d5db; /* Gray 300 */
+  background: rgba(255, 255, 255, 0.15);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background: #E23744;
 }
+
+/* Stats Marquee Animation */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 25s linear infinite;
+}
+
+/* Hover glow effect */
+.glow-effect {
+  position: relative;
+}
+
+.glow-effect::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.15), transparent);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}

@@ -1,9 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const navRef = useRef(null);
 
   useEffect(() => {
     const handleScrollEvent = () => {
@@ -13,46 +16,86 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScrollEvent);
   }, []);
 
+  useGSAP(() => {
+    // Fade in navigation bar on load
+    gsap.fromTo(navRef.current,
+      { opacity: 0, y: -20 },
+      { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }
+    );
+  }, { scope: navRef });
+
   const handleScroll = (id) => {
     const section = document.getElementById(id);
     if (!section) return;
 
-    const yOffset = -64; // Offset matches navbar height
-    const y =
-      section.getBoundingClientRect().top +
-      window.pageYOffset +
-      yOffset;
+    const isMobile = window.innerWidth < 768;
 
-    window.scrollTo({
-      top: y,
-      behavior: "smooth",
-    });
+    if (isMobile) {
+      const yOffset = -64; // Offset matches navbar height
+      const y =
+        section.getBoundingClientRect().top +
+        window.pageYOffset +
+        yOffset;
+
+      window.scrollTo({
+        top: y,
+        behavior: "smooth",
+      });
+    } else {
+      const horizontalSectionIds = ["about", "experience", "technical-arsenal", "credentials"];
+      const index = horizontalSectionIds.indexOf(id);
+
+      if (index !== -1) {
+        // If it's one of the pinned horizontal panels, scroll to its corresponding y-offset within the horizontal wrapper
+        const wrapper = document.getElementById("about")?.parentElement;
+        const wrapperTop = wrapper 
+          ? wrapper.getBoundingClientRect().top + window.pageYOffset 
+          : section.getBoundingClientRect().top + window.pageYOffset;
+        
+        const y = wrapperTop + index * window.innerHeight;
+        
+        window.scrollTo({
+          top: y,
+          behavior: "smooth",
+        });
+      } else {
+        const yOffset = -64;
+        const y =
+          section.getBoundingClientRect().top +
+          window.pageYOffset +
+          yOffset;
+
+        window.scrollTo({
+          top: y,
+          behavior: "smooth",
+        });
+      }
+    }
 
     setOpen(false);
   };
 
   const navLinks = [
-    { label: "Projects", id: "projects" },
+    { label: "About", id: "about" },
     { label: "Experience", id: "experience" },
     { label: "Skills", id: "technical-arsenal" },
+    { label: "Projects", id: "projects" },
   ];
 
   return (
     <>
-      <motion.nav 
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
+      <nav 
+        ref={navRef}
         className={`fixed top-0 left-0 w-full z-50 h-16 transition-all duration-300 ${
           scrolled 
-            ? "bg-white/97 backdrop-blur-sm border-b border-[#E5E5E5] shadow-[0_2px_20px_rgba(0,0,0,0.06)]" 
+            ? "bg-black/60 backdrop-blur-md border-b border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.5)]" 
             : "bg-transparent border-b border-transparent"
         }`}
       >
         <div className="max-w-7xl mx-auto px-8 flex items-center justify-between h-full">
           <button 
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className="text-[15px] font-semibold text-[#1C1C1C] cursor-pointer"
+            className="text-[15px] font-semibold text-white hover:text-[#E23744] transition-colors duration-200 cursor-pointer"
           >
             Shreyanshu Kumar
           </button>
@@ -63,7 +106,7 @@ export default function Navbar() {
               <button
                 key={link.id}
                 onClick={() => handleScroll(link.id)}
-                className="text-[14px] text-[#555] font-medium transition-colors duration-200 hover:text-[#E23744] cursor-pointer relative after:content-[''] after:absolute after:bottom-[-2px] after:left-0 after:w-full after:h-[2px] after:bg-[#E23744] after:scale-x-0 after:origin-left after:transition-transform after:duration-250 hover:after:scale-x-100"
+                className="text-[14px] text-gray-300 font-medium transition-colors duration-200 hover:text-[#E23744] cursor-pointer relative after:content-[''] after:absolute after:bottom-[-2px] after:left-0 after:w-full after:h-[2px] after:bg-[#E23744] after:scale-x-0 after:origin-left after:transition-transform after:duration-250 hover:after:scale-x-100"
               >
                 {link.label}
               </button>
@@ -73,14 +116,14 @@ export default function Navbar() {
               href="/SHREYANSHU.pdf"
               target="_blank"
               rel="noreferrer"
-              className="text-[14px] text-[#555] font-medium transition-colors duration-200 hover:text-[#E23744] relative after:content-[''] after:absolute after:bottom-[-2px] after:left-0 after:w-full after:h-[2px] after:bg-[#E23744] after:scale-x-0 after:origin-left after:transition-transform after:duration-250 hover:after:scale-x-100"
+              className="text-[14px] text-gray-300 font-medium transition-colors duration-200 hover:text-[#E23744] relative after:content-[''] after:absolute after:bottom-[-2px] after:left-0 after:w-full after:h-[2px] after:bg-[#E23744] after:scale-x-0 after:origin-left after:transition-transform after:duration-250 hover:after:scale-x-100"
             >
               Resume
             </a>
 
             <button
               onClick={() => handleScroll("contact")}
-              className="text-[14px] text-[#555] font-medium transition-colors duration-200 hover:text-[#E23744] cursor-pointer relative after:content-[''] after:absolute after:bottom-[-2px] after:left-0 after:w-full after:h-[2px] after:bg-[#E23744] after:scale-x-0 after:origin-left after:transition-transform after:duration-250 hover:after:scale-x-100"
+              className="text-[14px] text-gray-300 font-medium transition-colors duration-200 hover:text-[#E23744] cursor-pointer relative after:content-[''] after:absolute after:bottom-[-2px] after:left-0 after:w-full after:h-[2px] after:bg-[#E23744] after:scale-x-0 after:origin-left after:transition-transform after:duration-250 hover:after:scale-x-100"
             >
               Contact
             </button>
@@ -100,7 +143,7 @@ export default function Navbar() {
           <div className="md:hidden">
             <button 
               onClick={() => setOpen(!open)} 
-              className="p-2 text-[#1C1C1C] cursor-pointer"
+              className="p-2 text-white cursor-pointer"
             >
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 {open ? (
@@ -119,7 +162,7 @@ export default function Navbar() {
             </button>
           </div>
         </div>
-      </motion.nav>
+      </nav>
 
       {/* Mobile Drawer */}
       <AnimatePresence>
@@ -129,7 +172,7 @@ export default function Navbar() {
             animate={{ opacity: 1, height: "100vh" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed top-16 left-0 w-full z-45 md:hidden bg-white border-b border-[#E5E5E5] overflow-hidden flex flex-col justify-between py-12"
+            className="fixed top-16 left-0 w-full z-40 md:hidden bg-black/95 backdrop-blur-md border-b border-white/10 overflow-hidden flex flex-col justify-between py-12"
           >
             <div className="px-8 flex flex-col gap-8 items-center mt-12">
               {navLinks.map((link, idx) => (
@@ -139,7 +182,7 @@ export default function Navbar() {
                   initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: idx * 0.08 }}
-                  className="text-[28px] font-bold text-[#1C1C1C] hover:text-[#E23744] transition-colors cursor-pointer"
+                  className="text-[28px] font-bold text-white hover:text-[#E23744] transition-colors cursor-pointer"
                 >
                   {link.label}
                 </motion.button>
@@ -151,7 +194,7 @@ export default function Navbar() {
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: navLinks.length * 0.08 }}
-                className="text-[28px] font-bold text-[#1C1C1C] hover:text-[#E23744] transition-colors"
+                className="text-[28px] font-bold text-white hover:text-[#E23744] transition-colors"
               >
                 Resume
               </motion.a>
@@ -160,7 +203,7 @@ export default function Navbar() {
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: (navLinks.length + 1) * 0.08 }}
-                className="text-[28px] font-bold text-[#1C1C1C] hover:text-[#E23744] transition-colors cursor-pointer"
+                className="text-[28px] font-bold text-white hover:text-[#E23744] transition-colors cursor-pointer"
               >
                 Contact
               </motion.button>
