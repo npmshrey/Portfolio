@@ -81,7 +81,7 @@ export default function LandingHero() {
           >
             Frontend focused & Backend Support Engineer
           </motion.div>
-
+    
           {/* Element 2: Main headline */}
           <motion.h1
             custom={1}
