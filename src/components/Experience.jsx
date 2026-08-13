@@ -9,7 +9,7 @@ export default function Experience() {
       role: "Frontend Engineer Intern",
       company: "Campus-Pull",
       url: "https://campuspull.in",
-      period: "Feb 2026 – Present",
+      period: "Mar 2026 – Present",
       description: "Architected frontend features and real-time systems, focusing on chat, interactive tools, authentication, and global state optimization.",
       achievements: [
         "Built a real-time peer-to-peer chat system using Socket.IO with unread message tracking, read receipts, and multipart file attachment support via Axios FormData requests.",
