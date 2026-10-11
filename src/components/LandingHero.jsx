@@ -1,211 +1,259 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 
+gsap.registerPlugin(ScrollTrigger);
+
+const TECH = [
+  "React.js", "Next.js", "TypeScript", "Node.js", "Tailwind CSS", "Framer Motion",
+  "GSAP", "MongoDB", "PostgreSQL", "Docker", "Python", "Socket.IO", "REST APIs", "Git",
+];
+
+const STATS = [
+  { val: "3×", label: "Hackathon winner" },
+  { val: "3+", label: "Projects shipped" },
+  { val: "2+", label: "Years building" },
+];
+
+const FIRST = "SHREYANSHU".split("");
+const FACE_LETTER = 5; // the "A"
+
+function useIstClock() {
+  const fmt = () =>
+    new Intl.DateTimeFormat("en-GB", { timeZone: "Asia/Kolkata", hour: "2-digit", minute: "2-digit", second: "2-digit" }).format(new Date());
+  const [time, setTime] = useState(fmt);
+  useEffect(() => {
+    const id = setInterval(() => setTime(fmt()), 1000);
+    return () => clearInterval(id);
+  }, []);
+  return time;
+}
+
 export default function LandingHero() {
-  const heroRef = useRef(null);
+  const rootRef = useRef(null);
+  const loaderRef = useRef(null);
+  const counterRef = useRef(null);
+  const nameRef = useRef(null);
+  const tapesRef = useRef(null);
+  const [loadDone, setLoadDone] = useState(false);
+  const time = useIstClock();
 
+  // ── Loader: count to 100, then wipe the panel up ─────────────────
   useGSAP(() => {
-    // Line-by-line text reveal
-    gsap.fromTo(
-      ".hero-line",
-      { y: 100, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
+    const counter = { v: 0 };
+    const tl = gsap.timeline({
+      onStart: () => requestAnimationFrame(() => window.__lenis?.stop()),
+      onComplete: () => {
+        window.__lenis?.start();
+        window.__lenis?.scrollTo(0, { immediate: true });
+        setLoadDone(true);
+      },
+    });
+    tl.from(".loader-line", { yPercent: 110, duration: 0.6, ease: "power3.out", stagger: 0.08 })
+      .to(counter, {
+        v: 100,
+        duration: 1.6,
+        ease: "power2.inOut",
+        onUpdate: () => {
+          if (counterRef.current) counterRef.current.textContent = String(Math.round(counter.v)).padStart(3, "0");
+        },
+      }, 0.2)
+      .to(".loader-bar", { scaleX: 1, duration: 1.6, ease: "power2.inOut" }, 0.2)
+      .to(loaderRef.current, { clipPath: "inset(0 0 100% 0)", duration: 0.9, ease: "expo.inOut" }, "+=0.15");
+  }, { scope: rootRef });
+
+  // ── Hero entrance + scroll choreography ──────────────────────────
+  useGSAP(() => {
+    if (!loadDone) return;
+
+    gsap.timeline()
+      .from(".hero-letter", { yPercent: 115, rotate: 6, duration: 1.1, ease: "expo.out", stagger: 0.045 })
+      .from(".hero-fade", { y: 24, opacity: 0, duration: 0.8, ease: "power3.out", stagger: 0.06 }, 0.45);
+
+    // Name drifts apart as you leave the hero
+    gsap.to(".hero-name", {
+      yPercent: -30,
+      letterSpacing: "0.04em",
+      ease: "none",
+      scrollTrigger: { trigger: rootRef.current, start: "top top", end: "bottom top", scrub: true },
+    });
+    // Tapes slide against each other with scroll on top of their own loop
+    gsap.to(".tape-a", { xPercent: -12, ease: "none", scrollTrigger: { trigger: tapesRef.current, start: "top bottom", end: "bottom top", scrub: true } });
+    gsap.to(".tape-b", { xPercent: 12, ease: "none", scrollTrigger: { trigger: tapesRef.current, start: "top bottom", end: "bottom top", scrub: true } });
+  }, { scope: rootRef, dependencies: [loadDone] });
+
+  // ── Photo seen through the letters ───────────────────────────────
+  // Every letter carries the same photo as a text-clipped background, offset
+  // by the letter's own position so together they read as one continuous
+  // image. Sizes live in CSS variables; JS only measures the layout.
+  useEffect(() => {
+    const h1 = nameRef.current;
+    if (!h1) return;
+    const measure = () => {
+      const box = h1.getBoundingClientRect();
+      const masks = h1.querySelectorAll(".line-mask");
+      masks.forEach((mask) => {
+        const r = mask.getBoundingClientRect();
+        mask.firstElementChild.style.setProperty("--l", `${r.left - box.left}px`);
+        mask.firstElementChild.style.setProperty("--t", `${r.top - box.top}px`);
+      });
+      // Centre the face on the "A" rather than the gap between letters
+      const a = masks[FACE_LETTER].getBoundingClientRect();
+      h1.style.setProperty("--lh", `${a.height}px`);
+      h1.style.setProperty("--cx", `${a.left + a.width / 2 - box.left}px`);
+      h1.style.setProperty("--cy", `${a.top + a.height / 2 - box.top}px`);
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(h1);
+    document.fonts?.ready.then(measure);
+
+    if (!window.matchMedia("(pointer: fine)").matches) return () => ro.disconnect();
+    const pos = { x: 0, y: 0 };
+    const apply = () => {
+      h1.style.setProperty("--px", `${pos.x}px`);
+      h1.style.setProperty("--py", `${pos.y}px`);
+    };
+    const onMove = (e) => {
+      gsap.to(pos, {
+        x: (e.clientX / window.innerWidth - 0.5) * -40,
+        y: (e.clientY / window.innerHeight - 0.5) * -24,
         duration: 1.2,
-        ease: "power4.out",
-        stagger: 0.2,
-      }
-    );
-
-    // Fade in other elements
-    gsap.fromTo(
-      [".hero-badge", ".hero-subtitle", ".hero-actions", ".hero-stats"],
-      { y: 30, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 1,
         ease: "power3.out",
-        stagger: 0.15,
-        delay: 0.3,
-      }
-    );
-  }, { scope: heroRef });
+        overwrite: true,
+        onUpdate: apply,
+      });
+    };
+    window.addEventListener("mousemove", onMove);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("mousemove", onMove);
+    };
+  }, []);
 
-  const stats = [
-    { value: "3", label: "Hackathon Wins" },
-    { value: "3+", label: "Projects Shipped" },
-    { value: "2+", label: "Years Building" }
-  ];
-
-  const technologies = [
-    { name: "React.js", logo: "/images/logos/react.png" },
-    { name: "Next.js", logo: "/images/logos/nextjs.png" },
-    { name: "Node.js", logo: "/images/logos/node.png" },
-    { 
-      name: "JavaScript", 
-      icon: (
-        <svg className="w-4 h-4 fill-[#F7DF1E]" viewBox="0 0 24 24">
-          <path d="M0 0h24v24H0V0z"/>
-          <path d="M22.03 18.5c-.01-1.42-.8-2.48-2.32-3.06-1.03-.39-1.64-.62-2.17-.94-.53-.32-.76-.65-.76-1.13 0-.71.53-1.16 1.39-1.16.82 0 1.29.42 1.49 1.03h2.25c-.2-.94-.68-1.69-1.5-2.12-.84-.45-1.92-.59-2.73-.38-.75.19-1.55.6-2 .12.4-.7 1.03-1.52.82-2.31 0 1.64.98 2.5 2.56 3.1.83.31 1.82.58 2.35.9.53.31.89.72.89 1.33 0 .86-.67 1.36-1.75 1.36-1.05 0-1.69-.52-1.91-1.42h-2.28c.07 1.04.52 1.88 1.28 2.39.83.57 2.05.75 3.12.59.93-.14 1.77-.6 2.19-1.31.49-.83.58-1.8.58-2.65zM10.2 18.68c0-.76-.37-1.29-1.06-1.59-.65-.28-1.5-.47-2.15-.66-.8-.22-1.46-.43-1.89-.71-.42-.28-.67-.68-.67-1.14 0-.83.69-1.36 1.75-1.36.93 0 1.55.43 1.83.99h2.21c-.27-1.52-1.47-2.3-3.83-2.3-1.95 0-3.32.96-3.79 2.21-.19.51-.25 1.15-.25 1.74 0 1.39.67 2.22 1.94 2.76.77.33 1.76.56 2.56.77.8.21 1.49.46 1.85.73.36.27.55.67.55 1.14 0 .75-.59 1.31-1.63 1.31-.99 0-1.57-.45-1.82-1.15H1.12c.08.97.52 1.8 1.26 2.29.75.51 1.81.71 2.79.59.99-.12 1.88-.58 2.33-1.28.46-.71.7-1.56.7-2.31z"/>
-        </svg>
-      )
-    },
-    { 
-      name: "Tailwind CSS", 
-      icon: (
-        <svg className="w-4 h-4 fill-[#38bdf8]" viewBox="0 0 24 24">
-          <path d="M12.001 4.8c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624C13.666 10.618 15.027 12 18.001 12c3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C16.337 6.182 14.976 4.8 12.001 4.8zm-6 7.2c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624 1.177 1.194 2.538 2.576 5.512 2.576 3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C10.337 13.382 8.976 12 6.001 12z"/>
-        </svg>
-      )
-    },
-    { 
-      name: "MongoDB", 
-      icon: (
-        <svg className="w-4 h-4 fill-[#47A248]" viewBox="0 0 24 24">
-          <path d="M12 .002c-1.34 0-2.68.797-2.68 2.766v.02c0 2.056.96 4.908 2.2 7.643 1.258 2.775 2.66 5.253 2.66 7.025 0 2.072-1.34 3.018-2.68 3.52v-21.03c0-.14.05-.28.16-.36l.34-.23c-.02-.02-.04-.03-.06-.03V0zm0 0c1.34 0 2.68.797 2.68 2.766v.02c0 2.056-.96 4.908-2.2 7.643-1.258 2.775-2.66 5.253-2.66 7.025 0 2.072 1.34 3.018 2.68 3.52v-21.03c0-.14-.05-.28-.16-.36l-.34-.23c.02-.02.04-.03.06-.03V0zm-1.02.8v22.06c-3.1-1.07-5.18-3.41-5.18-5.83 0-1.74.96-3.8 2.21-6.17a42.92 42.92 0 0 0 2.97-10.06zm2.04 0c3.1 1.07 5.18 3.41 5.18 5.83 0 1.74-.96 3.8-2.21 6.17a42.92 42.92 0 0 1-2.97 10.06V.8z"/>
-        </svg>
-      )
-    },
-    { name: "Git", logo: "/images/logos/git.svg" },
-    { name: "Python", logo: "/images/logos/python.svg" },
-    { 
-      name: "Docker", 
-      icon: (
-        <svg className="w-4 h-4 fill-[#2496ED]" viewBox="0 0 24 24">
-          <path d="M13.983 11.078h2.119c.102 0 .186-.084.186-.186V8.773c0-.102-.084-.186-.186-.186h-2.119c-.102 0-.186.084-.186.186v2.119c0 .102.084.186.186.186zM11.266 11.078h2.119c.102 0 .186-.084.186-.186V8.773c0-.102-.084-.186-.186-.186h-2.119c-.102 0-.186.084-.186.186v2.119c0 .102.084.186.186.186zM11.266 8.358h2.119c.102 0 .186-.084.186-.186V6.053c0-.102-.084-.186-.186-.186h-2.119c-.102 0-.186.084-.186.186v2.119c0 .102.084.186.186.186zM8.577 11.078h2.119c.102 0 .186-.084.186-.186V8.773c0-.102-.084-.186-.186-.186H8.577c-.102 0-.186.084-.186.186v2.119c0 .102.084.186.186.186zM8.577 8.358h2.119c.102 0 .186-.084.186-.186V6.053c0-.102-.084-.186-.186-.186H8.577c-.102 0-.186.084-.186.186v2.119c0 .102.084.186.186.186zM5.89 11.078h2.119c.102 0 .186-.084.186-.186V8.773c0-.102-.084-.186-.186-.186H5.89c-.102 0-.186.084-.186.186v2.119c0 .102.084.186.186.186zM3.203 11.078h2.119c.102 0 .186-.084.186-.186V8.773c0-.102-.084-.186-.186-.186H3.203c-.102 0-.186.084-.186.186v2.119c0 .102.084.186.186.186zM13.983 8.358h2.119c.102 0 .186-.084.186-.186V6.053c0-.102-.084-.186-.186-.186h-2.119c-.102 0-.186.084-.186.186v2.119c0 .102.084.186.186.186zM23.955 12.35c-.525-.815-1.428-1.305-2.45-1.305h-.625v-1.39c0-.102-.084-.186-.186-.186h-2.119c-.102 0-.186.084-.186.186v1.39h-1.63v2.119h6.417c.102 0 .186-.084.186-.186v-.629zM.2 13.062c.023.28.163.535.39.712.592.464 1.32.71 2.066.71h19.578c.11 0 .216-.03.312-.087.27-.162.434-.457.434-.775 0-.318-.164-.613-.434-.775-.096-.057-.202-.087-.312-.087H.311c-.064 0-.127.012-.186.035-.256.09-.41.353-.41.614v.398z"/>
-        </svg>
-      )
-    },
-    { 
-      name: "Framer Motion", 
-      icon: (
-        <svg className="w-4 h-4 fill-white" viewBox="0 0 24 24">
-          <path d="M24 0H0v12h12L24 0zM0 24h24V12H12L0 24z"/>
-        </svg>
-      )
-    },
-  ];
+  // Letters kick when hovered
+  const kick = (e) => {
+    gsap.fromTo(e.currentTarget, { yPercent: 0 }, { yPercent: -14, duration: 0.18, ease: "power2.out", yoyo: true, repeat: 1 });
+  };
 
   return (
-    <section ref={heroRef} className="relative min-h-screen flex flex-col justify-between bg-black pt-24 overflow-hidden">
-      {/* Ambient Radial Glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_-10%,rgba(167,139,250,0.12),transparent_70%)] pointer-events-none z-0" />
-      
-      {/* Grid background */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:80px_80px] pointer-events-none z-0" />
-      
-      <div className="max-w-7xl w-full mx-auto px-8 grid lg:grid-cols-2 gap-8 lg:gap-0 items-center relative z-10 flex-1">
-        
-        {/* Left Column */}
-        <div className="flex flex-col justify-center">
-          {/* Eyebrow Badge */}
-          <div className="hero-badge inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-medium text-gray-300 uppercase tracking-widest mb-6 w-fit select-none">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-            </span>
-            Full Stack Developer
+    <div ref={rootRef}>
+      {/* ══ LOADER ══════════════════════════════════════════════ */}
+      <div
+        ref={loaderRef}
+        className="fixed inset-0 z-[999] bg-acid text-ink flex flex-col justify-between p-6 sm:p-10"
+        style={{ clipPath: "inset(0 0 0 0)" }}
+        aria-hidden={loadDone}
+      >
+        <div className="flex justify-between font-mono text-[11px] sm:text-xs uppercase tracking-[0.14em]">
+          <span className="line-mask"><span className="loader-line block">Shreyanshu Kumar — Portfolio</span></span>
+          <span className="line-mask"><span className="loader-line block">©2026</span></span>
+        </div>
+        <div className="max-w-xl">
+          <span className="line-mask"><span className="loader-line block font-serif-i text-3xl sm:text-5xl leading-[1.05]">Turning coffee into</span></span>
+          <span className="line-mask"><span className="loader-line block font-serif-i text-3xl sm:text-5xl leading-[1.05]">production-ready software</span></span>
+          <span className="line-mask"><span className="loader-line block font-serif-i text-3xl sm:text-5xl leading-[1.05]">since 2024.</span></span>
+        </div>
+        <div>
+          <div className="loader-bar h-[2px] bg-ink origin-left mb-4" style={{ transform: "scaleX(0)" }} />
+          <div className="flex items-end justify-between">
+            <span className="font-mono text-xs uppercase tracking-[0.14em]">Loading experience</span>
+            <span ref={counterRef} className="font-display text-[28vw] sm:text-[18vw] leading-[0.78]">000</span>
           </div>
+        </div>
+      </div>
 
-          {/* Main Headline */}
-          <h1 className="text-[clamp(44px,6.5vw,90px)] font-light text-white tracking-[-0.04em] leading-[1.05] mb-6 select-none">
-            <div className="overflow-hidden py-1">
-              <span className="hero-line inline-block">Not just a developer.</span>
-            </div>
-            <div className="overflow-hidden py-1">
-              <span className="hero-line inline-block text-gray-400">A builder.</span>
-            </div>
+      {/* ══ HERO ════════════════════════════════════════════════ */}
+      <section
+        id="home"
+        className="relative min-h-[100svh] flex flex-col justify-between overflow-hidden pt-24 pb-8 px-4 sm:px-8"
+      >
+        {/* Grid lines */}
+        <div className="absolute inset-0 pointer-events-none grid grid-cols-4 sm:grid-cols-6 px-4 sm:px-8" aria-hidden="true">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div key={i} className={`border-l border-white/[0.05] ${i >= 4 ? "hidden sm:block" : ""}`} />
+          ))}
+        </div>
+
+        {/* Meta row */}
+        <div className="relative z-20 grid grid-cols-2 sm:grid-cols-4 gap-4 tag">
+          <span className="hero-fade">Full stack developer</span>
+          <span className="hero-fade hidden sm:block">Ghaziabad, IN · {time} IST</span>
+          <span className="hero-fade hidden sm:block">SIH&apos;25 Champion</span>
+          <span className="hero-fade flex items-center gap-2 justify-end">
+            <span className="w-2 h-2 rounded-full bg-acid blink" /> Available for work
+          </span>
+        </div>
+
+        {/* Giant name */}
+        <div className="relative my-auto pt-10 pointer-events-none">
+          <h1
+            ref={nameRef}
+            className="hero-name photo-type font-display text-[33vw] sm:text-[17vw] grid grid-cols-5 justify-items-center sm:flex sm:justify-between pointer-events-auto"
+            data-cursor="hi!"
+            aria-label="Shreyanshu Kumar"
+          >
+            {FIRST.map((ch, i) => (
+              <span key={i} className="line-mask" aria-hidden="true">
+                <span className="hero-letter inline-block" onMouseEnter={kick}>{ch}</span>
+              </span>
+            ))}
           </h1>
 
-          {/* Subtitle */}
-          <p className="hero-subtitle text-lg sm:text-xl text-gray-400 max-w-[580px] font-light leading-relaxed mb-8">
-            Shreyanshu Kumar // I engineer high-performance web applications with a focus on polished UI, resilient architecture, and measurable impact. Based in Ghaziabad, India.
-          </p>
+          <div className="flex flex-col-reverse lg:flex-row lg:items-end justify-between gap-6 mt-3 pointer-events-auto">
+            <div className="max-w-md">
+              <p className="hero-fade text-bone/80 text-base sm:text-lg leading-snug">
+                <span className="font-serif-i text-2xl sm:text-3xl text-bone">Full-stack developer</span>{" "}
+                building production-grade apps with polished UI, resilient architecture and measurable impact.
+              </p>
+              <div className="hero-fade flex flex-wrap gap-3 mt-6">
+                <a href="#projects" className="group relative overflow-hidden bg-acid text-ink font-mono text-xs font-bold uppercase tracking-[0.14em] px-6 py-4">
+                  <span className="relative z-10">See the work ↘</span>
+                  <span className="absolute inset-0 bg-bone translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
+                </a>
+                <a href="/SHREYANSHU.pdf" target="_blank" rel="noreferrer" className="border border-bone/30 font-mono text-xs font-bold uppercase tracking-[0.14em] px-6 py-4 hover:bg-bone hover:text-ink transition-colors duration-300">
+                  Résumé ↗
+                </a>
+              </div>
+            </div>
 
-          {/* CTAs */}
-          <div className="hero-actions flex flex-wrap gap-4 items-center mb-10">
-            <a
-              href="#projects"
-              className="bg-[#E23744] hover:bg-[#c4303b] text-white rounded-full px-8 py-4 font-semibold text-[15px] transition-colors duration-200 cursor-pointer shadow-[0_4px_20px_rgba(226,55,68,0.25)]"
-            >
-              View Projects
-            </a>
-            <a
-              href="/SHREYANSHU.pdf"
-              target="_blank"
-              rel="noreferrer"
-              className="glass-card hover:bg-white/10 text-white rounded-full px-8 py-4 font-medium text-[15px] transition-all duration-200"
-            >
-              Download Resume
-            </a>
-          </div>
-
-          {/* Stats Row */}
-          <div className="hero-stats flex gap-10 flex-wrap items-center">
-            {stats.map((stat, idx) => (
-              <div key={idx} className="flex items-center gap-10">
-                <div className="flex flex-col">
-                  <span className="text-[28px] font-bold text-white leading-none">
-                    {stat.value}
-                  </span>
-                  <span className="text-[12px] text-gray-400 mt-1 font-medium whitespace-nowrap">
-                    {stat.label}
-                  </span>
+            <div className="flex items-end gap-6 sm:gap-10">
+              {STATS.map((s) => (
+                <div key={s.label} className="hero-fade">
+                  <p className="font-display text-5xl sm:text-6xl text-acid">{s.val}</p>
+                  <p className="tag mt-1">{s.label}</p>
                 </div>
-                {idx < stats.length - 1 && (
-                  <div className="w-px h-8 bg-white/10 self-center" />
-                )}
-              </div>
-            ))}
+              ))}
+              <span className="hero-fade hidden lg:block font-display text-[7vw] text-outline">KUMAR</span>
+            </div>
           </div>
         </div>
+      </section>
 
-        {/* Right Column: Profile Image */}
-        <div className="hidden lg:flex justify-center items-center relative">
-          <div className="absolute w-[450px] h-[450px] rounded-full bg-[#E23744]/5 blur-[80px] pointer-events-none" />
-          <div className="w-[clamp(280px,32vw,400px)] h-[clamp(280px,32vw,400px)] rounded-full overflow-hidden border border-white/10 bg-black group cursor-pointer relative z-10 transition-colors duration-300 hover:border-[#E23744]/40">
-            <img 
-              src="/images/profile.jpeg" 
-              alt="Shreyanshu Kumar" 
-              className="w-full h-full object-cover object-[center_top] grayscale group-hover:grayscale-0 transition-all duration-700 ease-in-out scale-105 group-hover:scale-100"
-            />
+      {/* ══ CROSSING TAPES ══════════════════════════════════════ */}
+      <div ref={tapesRef} className="relative h-44 sm:h-56 overflow-hidden my-4" aria-hidden="true">
+        <div className="absolute left-[-5%] right-[-5%] top-1/2 -translate-y-1/2 rotate-[3deg] bg-bone py-3 sm:py-4 overflow-hidden">
+          <div className="tape-b">
+            <div className="marquee-rev">
+              {[...TECH, ...TECH].map((t, i) => (
+                <span key={i} className="font-display text-3xl sm:text-5xl text-ink/25 mx-5 whitespace-nowrap">{t}</span>
+              ))}
+            </div>
           </div>
         </div>
-
-      </div>
-
-      {/* Continuous Marquee Ticker */}
-      <div className="w-full border-t border-white/5 py-5 overflow-hidden bg-black/40 backdrop-blur-sm relative z-20 mt-12 select-none">
-        <div className="animate-marquee flex gap-8 whitespace-nowrap">
-          <div className="flex items-center gap-8 shrink-0">
-            {technologies.map((tech, idx) => (
-              <div key={idx} className="flex items-center gap-2.5 px-5 py-2 bg-white/[0.03] border border-white/10 rounded-full hover:border-[#E23744]/40 hover:bg-white/[0.05] transition-all duration-300">
-                {tech.logo ? (
-                  <img src={tech.logo} alt={tech.name} className="w-4 h-4 object-contain" />
-                ) : (
-                  tech.icon
-                )}
-                <span className="text-xs font-semibold tracking-wide text-gray-200">{tech.name}</span>
-              </div>
-            ))}
-          </div>
-          <div className="flex items-center gap-8 shrink-0">
-            {technologies.map((tech, idx) => (
-              <div key={`dup-${idx}`} className="flex items-center gap-2.5 px-5 py-2 bg-white/[0.03] border border-white/10 rounded-full hover:border-[#E23744]/40 hover:bg-white/[0.05] transition-all duration-300">
-                {tech.logo ? (
-                  <img src={tech.logo} alt={tech.name} className="w-4 h-4 object-contain" />
-                ) : (
-                  tech.icon
-                )}
-                <span className="text-xs font-semibold tracking-wide text-gray-200">{tech.name}</span>
-              </div>
-            ))}
+        <div className="absolute left-[-5%] right-[-5%] top-1/2 -translate-y-1/2 -rotate-[3deg] bg-acid py-3 sm:py-4 overflow-hidden shadow-[0_20px_40px_-10px_rgba(0,0,0,0.6)]">
+          <div className="tape-a">
+            <div className="marquee">
+              {[...TECH, ...TECH].map((t, i) => (
+                <span key={i} className="font-display text-3xl sm:text-5xl text-ink mx-5 whitespace-nowrap flex items-center gap-10">
+                  {t} <span className="text-2xl">✺</span>
+                </span>
+              ))}
+            </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }

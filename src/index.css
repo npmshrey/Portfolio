@@ -1,129 +1,177 @@
 @import "tailwindcss";
 
-@theme {
-  --color-background: #000000;
-  --color-foreground: #ffffff;
-  --color-primary: #ffffff;
-  --color-primary-foreground: #000000;
-  --color-accent: #E23744; /* Zomato/Eternal Red */
-  --color-accent-hover: #f0515d; /* Lighter Red */
-  --color-muted: #121212;
-  --color-muted-foreground: #a3a3a3;
-  --color-border: rgba(255, 255, 255, 0.08);
+/* ══════════════════════════════════════════════════════════════
+   ACID BRUTALIST — ink, bone and one electric accent.
+   Giant condensed display type, mono labels, serif italics for
+   the emotional words, film grain over everything.
+   ══════════════════════════════════════════════════════════════ */
 
-  --font-sans: "Inter", sans-serif;
+@theme {
+  --color-ink: #0b0b0a;
+  --color-ink-2: #141412;
+  --color-bone: #ecebe4;
+  --color-dim: #8a8a83;
+  --color-acid: #c8ff2e;
+  --color-hot: #ff3d2e;
+  --color-line: rgba(236, 235, 228, 0.12);
+
+  --font-display: "Anton", "Impact", "Arial Narrow", sans-serif;
+  --font-sans: "Space Grotesk", "Segoe UI", Arial, sans-serif;
+  --font-serif: "Instrument Serif", Georgia, serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "Courier New", monospace;
 }
 
 @layer base {
   html {
     font-family: var(--font-sans);
-    scroll-behavior: smooth;
-    scroll-padding-top: 80px;
     color-scheme: dark;
-    background-color: #000000;
-    color: #ffffff;
+    background-color: var(--color-ink);
+    color: var(--color-bone);
   }
 
+  /* Lenis drives scrolling; native smooth-scroll would fight it. */
+  html.lenis, html.lenis body { height: auto; }
+  .lenis.lenis-smooth { scroll-behavior: auto !important; }
+  .lenis.lenis-stopped { overflow: hidden; }
+
   body {
-    background-color: #000000;
-    color: #ffffff;
+    background-color: var(--color-ink);
+    color: var(--color-bone);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
     font-size: 15px;
-    line-height: 1.7;
+    line-height: 1.6;
+  }
+
+  /* The custom cursor replaces the system one on fine pointers only. */
+  @media (hover: hover) and (pointer: fine) {
+    body.has-cursor, body.has-cursor a, body.has-cursor button { cursor: none; }
   }
 }
 
 @layer utilities {
-  .glass-card {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 20px;
+  .font-display { font-family: var(--font-display); font-weight: 400; letter-spacing: -0.01em; text-transform: uppercase; line-height: 0.86; }
+  .font-serif-i { font-family: var(--font-serif); font-style: italic; font-weight: 400; text-transform: none; letter-spacing: -0.01em; }
+  .font-mono { font-family: var(--font-mono); }
+
+  /* Hollow display type */
+  .text-outline {
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--color-bone);
+  }
+  .text-outline-acid {
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--color-acid);
   }
 
-  .glass-card-hover {
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  }
-  .glass-card-hover:hover {
-    transform: translateY(-4px);
-    border-color: rgba(255, 255, 255, 0.2);
-    background: rgba(255, 255, 255, 0.05);
-    box-shadow: 0 10px 30px -15px rgba(0, 0, 0, 0.7);
-  }
-
-  .text-gradient {
-    background: linear-gradient(135deg, #ffffff 0%, #a3a3a3 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+  /* Mono tag — "[ 01 ] PHILOSOPHY" */
+  .tag {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-dim);
   }
 
-  .text-gradient-accent {
-    background: linear-gradient(135deg, #ff7e8a 0%, #E23744 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1px solid var(--color-line);
+    border-radius: 9999px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
   }
-}
 
-/* Custom Selection */
-::selection {
-  background-color: rgba(226, 55, 68, 0.3);
-  color: #ffffff;
-}
-
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: #000000;
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #E23744;
-}
-
-/* Stats Marquee Animation */
-@keyframes marquee {
-  0% {
-    transform: translateX(0%);
+  /* Hard-edged card with an offset acid shadow on hover */
+  .brut-card {
+    position: relative;
+    background: var(--color-ink-2);
+    border: 1px solid var(--color-line);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s ease;
   }
-  100% {
-    transform: translateX(-50%);
+  .brut-card:hover {
+    transform: translate(-6px, -6px);
+    border-color: var(--color-acid);
+    box-shadow: 6px 6px 0 0 var(--color-acid);
   }
+
+  /* Line-mask for split-text reveals */
+  .line-mask { display: block; overflow: hidden; padding-bottom: 0.04em; }
 }
 
-.animate-marquee {
-  display: flex;
-  width: max-content;
-  animation: marquee 25s linear infinite;
+/* ── Photo-through-type (hero name) ─────────────────────────────
+   --lh: one line's height, --cx/--cy: where the face is centred,
+   --l/--t: each letter's offset, --px/--py: parallax.
+   The photo is scaled so the face spans the letter height and is centred
+   on the name; anything outside the photo falls back to the wall colour. */
+.photo-type { --s: calc(var(--lh, 200px) * 2.4); }
+.photo-type .hero-letter {
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  background-color: #f1f1ee;
+  background-image: url("/images/profile.jpeg");
+  background-repeat: no-repeat;
+  background-size: var(--s) var(--s);
+  background-position:
+    calc(var(--cx, 50%) - var(--s) * 0.55 - var(--l, 0px) + var(--px, 0px))
+    calc(var(--cy, 50%) - var(--s) * 0.38 - var(--t, 0px) + var(--py, 0px));
+  -webkit-background-clip: text;
+  background-clip: text;
+  filter: grayscale(1) contrast(1.2) brightness(1.04);
 }
 
-/* Hover glow effect */
-.glow-effect {
-  position: relative;
-}
-
-.glow-effect::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  border-radius: inherit;
-  padding: 1px;
-  background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.15), transparent);
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
+/* ── Film grain ─────────────────────────────────────────────── */
+.grain {
+  position: fixed;
+  inset: -50%;
+  width: 200%;
+  height: 200%;
   pointer-events: none;
-}
+  z-index: 90;
+  opacity: 0.07;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  animation: grain 0.8s steps(6) infinite;
+}
+@keyframes grain {
+  0%   { transform: translate(0, 0); }
+  20%  { transform: translate(-5%, 4%); }
+  40%  { transform: translate(4%, -6%); }
+  60%  { transform: translate(-7%, -2%); }
+  80%  { transform: translate(6%, 5%); }
+  100% { transform: translate(0, 0); }
+}
+
+/* ── Marquee tape ───────────────────────────────────────────── */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+@keyframes marquee-rev {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
+.marquee      { display: flex; width: max-content; animation: marquee 28s linear infinite; }
+.marquee-rev  { display: flex; width: max-content; animation: marquee-rev 34s linear infinite; }
+
+/* ── Rotating badge ─────────────────────────────────────────── */
+@keyframes spin-slow { to { transform: rotate(360deg); } }
+.spin-slow { animation: spin-slow 14s linear infinite; }
+
+@keyframes blink { 50% { opacity: 0; } }
+.blink { animation: blink 1s steps(1) infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .grain, .marquee, .marquee-rev, .spin-slow, .blink { animation: none; }
+}
+
+::selection { background-color: var(--color-acid); color: var(--color-ink); }
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--color-ink); }
+::-webkit-scrollbar-thumb { background: rgba(236, 235, 228, 0.2); }
+::-webkit-scrollbar-thumb:hover { background: var(--color-acid); }
