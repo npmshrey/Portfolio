@@ -35,7 +35,7 @@ export default function Navbar() {
     setOpen(false);
 
     const index = horizontalSectionIds.indexOf(id);
-    if (window.innerWidth >= 768 && index !== -1) {
+    if (window.innerWidth >= 1024 && index !== -1) {
       // While pinned, the wrapper sits at the viewport top, so measure from
       // GSAP's pin-spacer, whose document position never moves.
       const wrapper = section.parentElement.parentElement;
@@ -51,8 +51,9 @@ export default function Navbar() {
     <>
       <nav
         ref={navRef}
-        className="fixed top-0 left-0 w-full z-[95] px-4 sm:px-8 h-16 flex items-center justify-between text-bone"
-        style={{ mixBlendMode: open ? "normal" : "difference" }}
+        className={`fixed top-0 left-0 w-full z-[95] px-4 sm:px-8 h-16 flex items-center justify-between text-bone transition-colors lg:mix-blend-difference lg:bg-transparent lg:border-transparent lg:backdrop-blur-none ${
+          open ? "bg-transparent border-b border-transparent" : "bg-ink/85 backdrop-blur-md border-b border-line"
+        }`}
       >
         <button
           onClick={() => scrollToY(0)}

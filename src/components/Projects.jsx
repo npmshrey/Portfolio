@@ -53,10 +53,10 @@ export default function Projects() {
 
   return (
     <section ref={containerRef} id="projects" className="relative py-28 md:py-40 px-4 sm:px-8 border-t border-line">
-      {/* Cursor-following preview (desktop) */}
+      {/* Cursor-following preview (mouse screens) */}
       <div
         ref={previewRef}
-        className="hidden md:block fixed top-0 left-0 z-[60] w-[400px] aspect-[16/10] -ml-[200px] -mt-[125px] pointer-events-none overflow-hidden border-2 border-acid"
+        className="hidden lg:block fixed top-0 left-0 z-[60] w-[400px] aspect-[16/10] -ml-[200px] -mt-[125px] pointer-events-none overflow-hidden border-2 border-acid"
         aria-hidden="true"
       >
         <div
@@ -89,12 +89,12 @@ export default function Projects() {
             key={project.title}
             onMouseEnter={() => setActive(i)}
             data-cursor="view"
-            className="project-row group relative grid md:grid-cols-12 gap-6 py-8 md:py-10 border-b border-line"
+            className="project-row group relative grid lg:grid-cols-12 gap-6 py-8 lg:py-10 border-b border-line"
           >
-            <span className="md:col-span-1 font-mono text-xs text-dim pt-2">/0{i + 1}</span>
+            <span className="lg:col-span-1 font-mono text-xs text-dim pt-2">/0{i + 1}</span>
 
-            <div className="md:col-span-7">
-              <h3 className="font-display text-[14vw] md:text-[7vw] text-outline group-hover:text-acid group-hover:[-webkit-text-stroke-color:transparent] transition-all duration-500 group-hover:translate-x-4">
+            <div className="lg:col-span-7">
+              <h3 className="font-display text-[14vw] lg:text-[7vw] text-outline group-hover:text-acid group-hover:[-webkit-text-stroke-color:transparent] transition-all duration-500 group-hover:translate-x-4">
                 {project.title}
               </h3>
               <div className="flex flex-wrap gap-2 mt-4">
@@ -102,11 +102,11 @@ export default function Projects() {
                   <span key={t} className="chip px-3 py-1 text-dim group-hover:text-bone group-hover:border-bone/30 transition-colors">{t}</span>
                 ))}
               </div>
-              {/* Inline preview on touch screens */}
-              <img src={project.image} alt={`${project.title} preview`} loading="lazy" className="md:hidden mt-6 w-full aspect-[16/10] object-cover object-top border border-line" />
+              {/* Inline preview on phones and tablets */}
+              <img src={project.image} alt={`${project.title} preview`} loading="lazy" className="lg:hidden mt-6 w-full aspect-[16/10] object-cover object-top border border-line" />
             </div>
 
-            <div className="md:col-span-4 flex flex-col justify-between gap-6">
+            <div className="lg:col-span-4 flex flex-col justify-between gap-6">
               <p className="text-sm text-bone/70 leading-relaxed">{project.description}</p>
               <div>
                 <p className="tag mb-1">Impact</p>

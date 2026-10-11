@@ -17,7 +17,9 @@ const STATS = [
 ];
 
 const FIRST = "SHREYANSHU".split("");
-const FACE_LETTER = 5; // the "A"
+// Face sits in the "A" on one line; when the name stacks as SHREY / ANSHU the
+// "A" hugs the left edge, so it moves to the middle "S" of the second line.
+const faceLetter = () => (window.innerWidth >= 1024 ? 5 : 7);
 
 function useIstClock() {
   const fmt = () =>
@@ -99,7 +101,7 @@ export default function LandingHero() {
         mask.firstElementChild.style.setProperty("--t", `${r.top - box.top}px`);
       });
       // Centre the face on the "A" rather than the gap between letters
-      const a = masks[FACE_LETTER].getBoundingClientRect();
+      const a = masks[faceLetter()].getBoundingClientRect();
       h1.style.setProperty("--lh", `${a.height}px`);
       h1.style.setProperty("--cx", `${a.left + a.width / 2 - box.left}px`);
       h1.style.setProperty("--cy", `${a.top + a.height / 2 - box.top}px`);
@@ -190,7 +192,7 @@ export default function LandingHero() {
         <div className="relative my-auto pt-10 pointer-events-none">
           <h1
             ref={nameRef}
-            className="hero-name photo-type font-display text-[33vw] sm:text-[17vw] grid grid-cols-5 justify-items-center sm:flex sm:justify-between pointer-events-auto"
+            className="hero-name photo-type font-display text-[33vw] md:text-[30vw] lg:text-[17vw] grid grid-cols-5 justify-items-center lg:flex lg:justify-between pointer-events-auto"
             data-cursor="hi!"
             aria-label="Shreyanshu Kumar"
           >
