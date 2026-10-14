@@ -57,10 +57,18 @@ export default function Navbar() {
       >
         <button
           onClick={() => scrollToY(0)}
-          className={`font-display text-2xl leading-none cursor-pointer transition-colors ${open ? "text-ink" : ""}`}
+          className={`group font-mono text-[13px] font-bold lowercase tracking-[0.04em] cursor-pointer transition-colors overflow-hidden h-5 ${open ? "text-ink" : ""}`}
           aria-label="Back to top"
         >
-          SK<span className="font-serif-i text-xl align-top">©</span>
+          {/* Terminal-prompt signature; rolls over to its action on hover */}
+          <span className="relative block">
+            <span className="block transition-transform duration-300 group-hover:-translate-y-full">
+              <span className="opacity-50">~/</span>shreyanshu<span className="blink">_</span>
+            </span>
+            <span className="absolute left-0 top-full block transition-transform duration-300 group-hover:-translate-y-full whitespace-nowrap">
+              back to top ↑
+            </span>
+          </span>
         </button>
 
         <div className="hidden md:flex items-center gap-8">
