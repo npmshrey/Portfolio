@@ -11,8 +11,9 @@ const TECH = [
 ];
 
 const STATS = [
-  { val: "3×", label: "Hackathon winner" },
-  { val: "3+", label: "Projects shipped" },
+  { val: "10+", label: "Hackathons" },
+  { val: "3×", label: "Hackathon wins" },
+  { val: "5+", label: "Projects shipped" },
   { val: "2+", label: "Years building" },
 ];
 
@@ -220,7 +221,7 @@ export default function LandingHero() {
               </div>
             </div>
 
-            <div className="flex items-end gap-6 sm:gap-10">
+            <div className="grid grid-cols-2 sm:grid-cols-4 lg:flex lg:items-end gap-x-6 gap-y-5 sm:gap-10">
               {STATS.map((s) => (
                 <div key={s.label} className="hero-fade">
                   <p className="font-display text-5xl sm:text-6xl text-acid">{s.val}</p>
