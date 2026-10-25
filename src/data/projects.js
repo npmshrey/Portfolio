@@ -1,4 +1,27 @@
 export const projects = [
+  // ── Production work (Digibuggy) ──────────────────────────────
+  // No public repo for client work, so `github` is omitted and the row
+  // shows only the live-site link.
+  {
+    title: "DGB India",
+    production: true,
+    company: "Digibuggy",
+    description: "Website for an enterprise infrastructure provider: GPU servers, storage, networking and backup systems, organised by industry (VFX, AI/ML, trading, architecture, media) with case studies and a hardware catalogue.",
+    impact: "Live at dgbindia.com, with an interactive NAS configurator and an admin panel for managing site content.",
+    tech: ["Next.js", "React", "NAS Configurator", "Admin Panel"],
+    live: "https://dgbindia.com/",
+    image: "/images/dgbindia-preview.png",
+  },
+  {
+    title: "NASTOWN",
+    production: true,
+    company: "Digibuggy",
+    description: "Storefront for a NAS (network-attached storage) retailer: a NAS configurator with GST-inclusive pricing, a NAS finder with savings calculator, use-case pages, NAS rental, a blog and WhatsApp quote requests.",
+    impact: "Live at nastown.com, helping buyers choose, price and order the right NAS for a business serving 10K+ customers.",
+    tech: ["React", "NAS Configurator", "ROI Calculator", "Blog CMS", "Admin Panel"],
+    live: "https://nastown.com/",
+    image: "/images/nastown-preview.png",
+  },
   {
     title: "AyurNutri",
     description: "AI-powered diet and nutrition system. Drastically improved patient onboarding by automating diet plan generation and monitoring.",

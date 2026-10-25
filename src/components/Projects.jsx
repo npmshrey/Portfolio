@@ -91,9 +91,14 @@ export default function Projects() {
             data-cursor="view"
             className="project-row group relative grid lg:grid-cols-12 gap-6 py-8 lg:py-10 border-b border-line"
           >
-            <span className="lg:col-span-1 font-mono text-xs text-dim pt-2">/0{i + 1}</span>
+            <span className="lg:col-span-1 font-mono text-xs text-dim pt-2">/{String(i + 1).padStart(2, "0")}</span>
 
             <div className="lg:col-span-7">
+              {project.production && (
+                <p className="inline-flex items-center gap-2 mb-3 font-mono text-[11px] font-bold uppercase tracking-[0.14em] text-acid">
+                  <span className="w-2 h-2 rounded-full bg-acid blink" /> Live in production · {project.company}
+                </p>
+              )}
               <h3 className="font-display text-[14vw] lg:text-[7vw] text-outline group-hover:text-acid group-hover:[-webkit-text-stroke-color:transparent] transition-all duration-500 group-hover:translate-x-4">
                 {project.title}
               </h3>
@@ -115,12 +120,14 @@ export default function Projects() {
               <div className="flex gap-3">
                 {project.live && project.live !== "#" && (
                   <a href={project.live} target="_blank" rel="noreferrer" className="font-mono text-[11px] font-bold uppercase tracking-[0.14em] bg-acid text-ink px-4 py-2.5 hover:bg-bone transition-colors">
-                    Live ↗
+                    {project.production ? `Visit ${new URL(project.live).hostname.replace(/^www\./, "")} ↗` : "Live ↗"}
                   </a>
                 )}
-                <a href={project.github} target="_blank" rel="noreferrer" className="font-mono text-[11px] font-bold uppercase tracking-[0.14em] border border-bone/30 px-4 py-2.5 hover:bg-bone hover:text-ink transition-colors">
-                  Source ↗
-                </a>
+                {project.github && (
+                  <a href={project.github} target="_blank" rel="noreferrer" className="font-mono text-[11px] font-bold uppercase tracking-[0.14em] border border-bone/30 px-4 py-2.5 hover:bg-bone hover:text-ink transition-colors">
+                    Source ↗
+                  </a>
+                )}
               </div>
             </div>
           </article>
